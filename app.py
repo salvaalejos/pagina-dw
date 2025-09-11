@@ -5,6 +5,9 @@ from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required
 from config import config
 from jinja2.ext import loopcontrols
+
+from models.Entities.Comment import Comment
+from models.ModelComment import ModelComment
 from models.ModelDrink import ModelDrink
 import datetime
 
@@ -31,15 +34,34 @@ def index():  # put application's code here
 def add_elements():
     actual_drinks = ModelDrink.getDrinks(db)
     actual_sucursales = ModelSucursal.getSucursales(db)
+
     return render_template('admin/add_elements.html',
                            drinks=actual_drinks,
                            sucursales=actual_sucursales
                            )
 
 
-@app.route('/bubbles')
+@app.route('/bubbles', methods=['GET','POST'])
 def bubbles():
-    return render_template('client/bubbles.html')
+    actual_drinks = ModelDrink.getDrinks(db)
+    actual_sucursales = ModelSucursal.getSucursales(db)
+    return render_template('client/bubbles.html'
+                           , drinks=actual_drinks
+                           , sucursales=actual_sucursales)
+
+@app.route('/add-comments', methods=['GET','POST'])
+def add_comments():
+    if request.method == 'POST':
+        message = request.form['message']
+        name = request.form['name']
+        email = request.form['email']
+        new_comment = Comment(0, name, email, message)
+        insert = ModelComment.newComment(db, new_comment)
+        if insert:
+            flash('Comentario enviado correctamente')
+        else:
+            flash('Error al enviar el comentario')
+    return redirect(url_for('bubbles'))
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host="0.0.0.0", port=5000, debug=True)

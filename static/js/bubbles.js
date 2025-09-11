@@ -101,27 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderMenu = () => {
-        menuItemsContainer.innerHTML = '';
-        menuData.forEach((product, index) => {
-            const menuItem = document.createElement('div');
-            menuItem.className = 'bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 menu-item-card';
-            menuItem.style.animationDelay = `${(index + 1) * 0.1}s`;
-            menuItem.innerHTML = `
-                <img src="${product.image}" alt="[Imagen de ${product.name}]" class="w-full h-48 object-cover">
-                <div class="p-6">
-                    <h4 class="text-xl font-bold mb-2">${product.name}</h4>
-                    <p class="text-gray-600 mb-4 text-sm">${product.description}</p>
-                    <div class="flex justify-between items-center">
-                        <span class="text-xl font-extrabold text-emerald-600">$${product.price.toFixed(2)}</span>
-                        <button class="add-to-cart-btn bg-emerald-100 text-emerald-800 hover:bg-emerald-200 font-bold py-2 px-4 rounded-full transition-colors flex items-center gap-2" data-id="${product.id}">
-                            <i data-lucide="plus-circle" class="w-5 h-5"></i>
-                            Agregar
-                        </button>
-                    </div>
-                </div>
-            `;
-            menuItemsContainer.appendChild(menuItem);
-        });
         lucide.createIcons();
     };
 
@@ -183,16 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             header.classList.remove('bg-white/95', 'shadow-md');
         }
-    });
-
-    // Simulación de envío de formulario de contacto
-    const contactForm = document.getElementById('contact-form');
-    const formFeedback = document.getElementById('form-feedback');
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        formFeedback.innerHTML = '<p class="text-emerald-600 font-semibold">¡Gracias por tu mensaje! Nos pondremos en contacto contigo pronto.</p>';
-        contactForm.reset();
-        setTimeout(() => { formFeedback.innerHTML = ''; }, 5000);
     });
 
     updateCart(); // Initial call to set up the cart state
