@@ -20,74 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const renderBranches = () => {
-        branchesList.innerHTML = ''; // Limpiar la lista
-        if (branches.length === 0) {
-            branchesList.innerHTML = '<p class="text-gray-500">No hay sucursales para mostrar.</p>';
-            return;
-        }
-        branches.forEach(branch => {
-            const branchEl = document.createElement('div');
-            branchEl.className = 'flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg';
-            branchEl.innerHTML = `
-                <p class="font-semibold text-gray-800">${branch.name}</p>
-                <button class="delete-branch text-red-500 hover:text-red-700 p-2" data-id="${branch.id}">
-                    <i data-lucide="trash-2" class="w-5 h-5"></i>
-                </button>
-            `;
-            branchesList.appendChild(branchEl);
-        });
         lucide.createIcons();
     };
 
-    // --- MANEJADORES DE EVENTOS ---
-    addProductForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newProduct = {
-            id: Date.now(),
-            name: document.getElementById('product-name').value,
-            price: parseFloat(document.getElementById('product-price').value),
-            image: document.getElementById('product-image').value,
-            description: document.getElementById('product-description').value,
-        };
-        products.push(newProduct);
-        localStorage.setItem('products', JSON.stringify(products));
-        renderProducts();
-        addProductForm.reset();
-    });
 
-    addBranchForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newBranch = {
-            id: Date.now(),
-            name: document.getElementById('branch-name').value,
-        };
-        branches.push(newBranch);
-        localStorage.setItem('branches', JSON.stringify(branches));
-        renderBranches();
-        addBranchForm.reset();
-    });
-
-    productsList.addEventListener('click', (e) => {
-        const deleteButton = e.target.closest('.delete-product');
-        if (deleteButton) {
-            const productId = parseInt(deleteButton.dataset.id);
-            products = products.filter(p => p.id !== productId);
-            localStorage.setItem('products', JSON.stringify(products));
-            renderProducts();
-        }
-    });
-
-    branchesList.addEventListener('click', (e) => {
-        const deleteButton = e.target.closest('.delete-branch');
-        if (deleteButton) {
-            const branchId = parseInt(deleteButton.dataset.id);
-            branches = branches.filter(b => b.id !== branchId);
-            localStorage.setItem('branches', JSON.stringify(branches));
-            renderBranches();
-        }
-    });
-
-    // Renderizado inicial
-    renderProducts();
-    renderBranches();
 });

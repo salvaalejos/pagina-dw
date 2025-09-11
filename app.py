@@ -16,7 +16,6 @@ app.config.from_object(config['development'])  # Cambia 'development' a 'product
 csrf = CSRFProtect()
 csrf.init_app(app)
 db = MySQL(app)
-login_manager_app = LoginManager(app)
 
 
 ################## Conexión base de datos ##########################

@@ -6,7 +6,7 @@ class ModelSucursal():
     def getSucursales(self, db):
         try:
             cursor = db.connection.cursor()
-            query = f"SELECT * FROM toppings ORDER BY id DESC"
+            query = f"SELECT * FROM sucursales ORDER BY id DESC"
             cursor.execute(query)
             result = cursor.fetchall()
             if result is not None:

@@ -7,8 +7,11 @@ class ModelDrink():
         try:
             cursor = db.connection.cursor()
             cursor.execute("SELECT * FROM bebidas ORDER BY id DESC LIMIT 1")
-            total = cursor.fetchone()[0]
-            return total
+            result = cursor.fetchall()
+            if result is not None:
+                return result
+            else:
+                return False
         except Exception as ex:
             raise Exception(ex)
 
