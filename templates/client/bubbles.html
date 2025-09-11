@@ -1,0 +1,192 @@
+{% extends './layout-client.html' %}
+
+{% block customConfig %}
+    <script src="static/js/bubbles.js"></script>
+{% endblock %}
+{%block customCSS%}
+    <link href="static/css/bubbles.css" rel="stylesheet">
+{%endblock%}
+
+{% block content %}
+    <!-- ========== BARRA DE NAVEGACIÓN ========== -->
+    <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#inicio" class="text-2xl font-extrabold text-emerald-600">
+                Pop<span class="text-emerald-400">Bubbles</span>
+            </a>
+            <div class="flex items-center space-x-8">
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Inicio</a>
+                    <a href="#sobre-nosotros" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Sobre Nosotros</a>
+                    <a href="#ordenar" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Ordenar</a>
+                    <a href="#contacto" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Contacto</a>
+                </nav>
+                <!-- Icono de Carrito -->
+                <div class="relative">
+                    <button id="cart-button" class="text-gray-600 hover:text-emerald-600">
+                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                    </button>
+                    <span id="cart-count" class="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-700">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white">
+            <a href="#inicio" class="block py-3 px-6 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600">Inicio</a>
+            <a href="#sobre-nosotros" class="block py-3 px-6 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600">Misión</a>
+            <a href="#ordenar" class="block py-3 px-6 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600">Ordenar</a>
+            <a href="#contacto" class="block py-3 px-6 text-gray-600 hover:bg-emerald-50 hover:text-emerald-600">Contacto</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- ... (Secciones Inicio y Sobre Nosotros sin cambios) ... -->
+        <section id="inicio" class="hero-bg min-h-screen flex items-center pt-20">
+            <div class="container mx-auto px-6 text-white text-left">
+                <div class="max-w-xl">
+                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
+                        La Felicidad es un <span class="text-emerald-400">Bubble Tea</span> a la Vez.
+                    </h1>
+                    <p class="text-lg md:text-xl mb-8 text-gray-200">
+                        Descubre una explosión de sabores únicos y refrescantes. Hechos con ingredientes frescos y mucho amor.
+                    </p>
+                    <a href="#ordenar" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105 inline-block">
+                        ¡Pide Ahora!
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre-nosotros" class="py-20 md:py-32 bg-white bubble-bg">
+            <div class="container mx-auto px-6">
+                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
+                    <div class="w-full md:w-1/2 rounded-lg overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                        <img src="static/images/bubble_tea.jpg" alt="[Bebida Matcha de Pop Bubbles Tea]" class="h-64 bject-cover">
+                    </div>
+                    <div class="w-full md:w-1/2 text-center md:text-left">
+                        <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Nuestra <span class="text-emerald-500">Misión</span></h2>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            En <strong>Pop Bubbles Tea</strong>, todo comenzó con un sueño: crear un lugar feliz donde cada sorbo contara una historia. Seleccionamos cuidadosamente las mejores hojas de té, frutas frescas y perlas de tapioca que hacen "pop" de sabor en tu boca.
+                        </p>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Somos más que una tienda de bubble tea; somos una comunidad de amigos que comparten la alegría por los sabores auténticos y los momentos especiales.
+                        </p>
+                        <div class="flex justify-center md:justify-start space-x-4">
+                            <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
+                                <i data-lucide="leaf" class="w-8 h-8 mx-auto mb-2"></i>
+                                <span class="font-semibold">Ingredientes Frescos</span>
+                            </div>
+                             <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
+                                <i data-lucide="smile" class="w-8 h-8 mx-auto mb-2"></i>
+                                <span class="font-semibold">Hecho con Amor</span>
+                            </div>
+                             <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
+                                <i data-lucide="award" class="w-8 h-8 mx-auto mb-2"></i>
+                                <span class="font-semibold">Calidad Premium</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== SECCIÓN ORDENAR ========== -->
+        <section id="ordenar" class="py-20 md:py-32 bg-emerald-50">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Elige tu Sabor Favorito</h2>
+                    <p class="text-gray-600 mb-12">Comienza por seleccionar tu sucursal más cercana para ver el menú disponible.</p>
+                </div>
+
+                <div class="max-w-md mx-auto mb-12">
+                     <label for="branch-selector" class="block text-gray-700 font-semibold mb-2 text-center">Paso 1: Elige tu sucursal</label>
+                    <select id="branch-selector" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow text-lg">
+                        <option value="">-- Selecciona una sucursal --</option>
+                        <option value="centro">Sucursal Centro</option>
+                        <option value="norte">Sucursal Norte</option>
+                        <option value="sur">Sucursal Sur</option>
+                    </select>
+                </div>
+
+                <div id="menu-container" class="hidden">
+                     <h3 class="text-2xl font-bold text-center text-emerald-700 mb-10">Paso 2: Arma tu pedido</h3>
+                    <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Los productos se añadirán aquí con JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ... (Sección Contacto y Footer sin cambios) ... -->
+        <section id="contacto" class="py-20 md:py-32 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">¿Tienes una idea o un antojo?</h2>
+                    <p class="text-gray-600 mb-12">Nos encantaría escucharte. Envíanos un mensaje y te responderemos tan rápido como preparamos tu bebida favorita.</p>
+                </div>
+
+                <div class="max-w-xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg border border-gray-100">
+                    <form id="contact-form">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre Completo</label>
+                            <input type="text" id="name" name="name" placeholder="Tu nombre aquí" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-semibold mb-2">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="tu@correo.com" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required>
+                        </div>
+                        <div class="mb-8">
+                            <label for="message" class="block text-gray-700 font-semibold mb-2">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Cuéntanos cómo podemos ayudarte..." class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-12 rounded-full text-lg w-full transition-transform transform hover:scale-105">
+                                Enviar Mensaje
+                            </button>
+                        </div>
+                    </form>
+                    <div id="form-feedback" class="mt-6 text-center"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-emerald-800 text-white">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p class="font-semibold text-lg mb-2">Pop Bubbles Tea</p>
+            <p class="text-emerald-200">&copy; 2024. Todos los derechos reservados. Creado con ❤️ para los amantes del té.</p>
+        </div>
+    </footer>
+
+    <!-- ========== PANEL LATERAL DEL CARRITO ========== -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"></div>
+    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-xl z-50 transform translate-x-full flex flex-col">
+        <!-- Header del Carrito -->
+        <div class="flex justify-between items-center p-6 border-b">
+            <h3 class="text-2xl font-bold text-emerald-800">Tu Carrito</h3>
+            <button id="close-cart-button" class="text-gray-500 hover:text-gray-800">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+        </div>
+        <!-- Items del Carrito -->
+        <div id="cart-items-container" class="flex-grow p-6 overflow-y-auto">
+            <!-- Los items del carrito se insertarán aquí -->
+             <p id="empty-cart-message" class="text-gray-500 text-center mt-8">Tu carrito está vacío.</p>
+        </div>
+        <!-- Footer del Carrito -->
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-semibold text-gray-700">Total:</span>
+                <span id="cart-total" class="text-2xl font-bold text-emerald-600">$0.00</span>
+            </div>
+            <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
+                Finalizar Compra
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
+

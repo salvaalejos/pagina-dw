@@ -1,0 +1,32 @@
+/* Estilos personalizados y configuración de Tailwind */
+body {
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+.hero-bg {
+    background-image: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('https://images.pexels.com/photos/5405820/pexels-photo-5405820.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+    background-size: cover;
+    background-position: center;
+}
+.bubble-bg {
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(167, 243, 208, 0.3), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(167, 243, 208, 0.3), transparent 30%),
+        radial-gradient(circle at 60% 80%, rgba(167, 243, 208, 0.2), transparent 40%);
+}
+/* Animación para el menú */
+.menu-item-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s forwards;
+}
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Estilos para el carrito */
+#cart-sidebar {
+    transition: transform 0.3s ease-in-out;
+}
