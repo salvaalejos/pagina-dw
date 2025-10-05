@@ -13,7 +13,8 @@
         {% block title %}
         {% endblock %}
     </title>
-    <!-- Tailwind CSS CDN -->
+
+{#    <!-- Tailwind CSS CDN -->#}
 {#    <script src="https://cdn.tailwindcss.com"></script>#}
 
     <!-- Google Fonts: Poppins -->
@@ -21,8 +22,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Íconos (Lucide) -->
     <script src="https://unpkg.com/lucide@latest"></script>
+
 
     <style>
         body {
@@ -46,5 +47,7 @@
     {%endblock%}
 
 </body>
-
+<script>
+    lucide.createIcons();
+</script>
 </html>

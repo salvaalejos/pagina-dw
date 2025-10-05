@@ -1,6 +1,6 @@
 {%extends './layout.html'%}
 
-{%block title%}Bubbles PopTea{%endblock%}
+{%block title%}Admin - Bubbles{%endblock%}
 
 
 
@@ -19,6 +19,7 @@
 
 {%block customCSS%}
 {%endblock%}
+
 
 {% block body %}
     <div class="flex h-screen bg-gray-100">
@@ -42,9 +43,13 @@
                 </a>
             </nav>
             <div class="p-4 border-t border-gray-700">
-                <a href="index.html" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
+                <a href="{{ url_for('bubbles') }}" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
                     <i data-lucide="external-link" class="w-5 h-5"></i>
                     <span>Ver Tienda</span>
+                </a>
+                <a href="{{ url_for('logout') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span>Cerrar Sesión</span>
                 </a>
             </div>
         </aside>

@@ -1,6 +1,12 @@
 {% extends './layout-admin.html' %}
 
 {% block customConfig %}
+
+{% endblock %}
+
+{% block customCSS %}
+    <!-- SAID AQUI ESTA EL CSS NO HAY FALLA XD -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 {% endblock %}
 
 {% block content %}
@@ -12,6 +18,26 @@
             </div>
         </header>
 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div id="flash-messages" class="max-w-4xl mx-auto mt-4">
+            {% for message in messages %}
+              <div role="alert"
+                   class="relative flex items-center justify-between rounded-lg border border-blue-300 bg-blue-50 px-5 py-3 text-blue-800 shadow-sm">
+                <p class="font-medium text-sm">{{ message }}</p>
+                <button type="button"
+                        aria-label="Cerrar"
+                        class="text-blue-500 hover:text-blue-700 text-lg leading-none ml-4"
+                        onclick="this.parentElement.remove()">
+                  ×
+                </button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% endwith %}
+
+
         <main class="flex-1 overflow-x-hidden overflow-y-auto p-6 md:p-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
@@ -19,10 +45,11 @@
                 <div class="space-y-8">
                     <div class="bg-white p-8 rounded-xl shadow-md">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Agregar Nuevo Producto</h2>
-                        <form id="add-product-form" class="space-y-4" action = "/add_product" method="POST" enctype="multipart/form-data">
+                        <form id="add-product-form" class="space-y-4" action = "/add-product" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div>
                                 <label for="product-name" class="block text-sm font-semibold text-gray-700 mb-1">Nombre del Producto</label>
-                                <input type="text" id="product-name" name="product-name" placeholder="Ej: Taro Fresh Milk" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                                <input type="text" id="product-name" name="product_name" placeholder="Ej: Taro Fresh Milk" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
                             </div>
                             <div>
                                 <label for="product-price" class="block text-sm font-semibold text-gray-700 mb-1">Precio</label>
@@ -30,11 +57,20 @@
                             </div>
                             <div>
                                 <label for="product-image" class="block text-sm font-semibold text-gray-700 mb-1">URL de la Imagen</label>
-                                <input type="url" id="product-image" name="product-image" placeholder="https://ejemplo.com/imagen.jpg" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                                <input type="url" id="product-image" name="product_image" placeholder="https://ejemplo.com/imagen.jpg" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
                             </div>
                             <div>
                                 <label for="product-description" class="block text-sm font-semibold text-gray-700 mb-1">Descripción</label>
-                                <textarea id="product-description" name="product-description" rows="3" placeholder="Una breve descripción del producto..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required></textarea>
+                                <textarea id="product-description" name="product_description" rows="3" placeholder="Una breve descripción del producto..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required></textarea>
+                            </div>
+                            <div>
+                                <label for="product-sucursal" class="block text-sm font-semibold text-gray-700 mb-1">Sucursal</label>
+                                <select id="product-sucursal" name="product_sucursal" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                                    <option value="" disabled selected>Selecciona una sucursal</option>
+                                    {% for sucursal in sucursales %}
+                                        <option value="{{ sucursal[0] }}">{{ sucursal[1] }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
                                 Agregar Producto
@@ -44,10 +80,19 @@
 
                     <div class="bg-white p-8 rounded-xl shadow-md">
                         <h2 class="text-2xl font-bold text-gray-800 mb-6">Agregar Nueva Sucursal</h2>
-                        <form id="add-branch-form" class="space-y-4" action = "/add_product" method="POST" enctype="multipart/form-data">
+                        <form id="add-branch-form" class="space-y-4" action = "/add-branch" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                             <div>
                                 <label for="branch-name" class="block text-sm font-semibold text-gray-700 mb-1">Nombre de la Sucursal</label>
-                                <input type="text" id="branch-name" placeholder="Ej: Sucursal Centro" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                                <input type="text" id="branch-name" name="branch_name" placeholder="Ej: Sucursal Centro" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                            </div>
+                            <div>
+                                <label for="branch-address" class="block text-sm font-semibold text-gray-700 mb-1">Dirección de la Sucursal</label>
+                                <input type="text" id="branch-address" name="branch_address" placeholder="Ej: Calle Principal #123" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
+                            </div>
+                            <div>
+                                <label for="branch-phone" class="block text-sm font-semibold text-gray-700 mb-1">Teléfono de la Sucursal</label>
+                                <input type="tel" id="branch-phone" name="branch_phone" placeholder="Ej: 555-123-4567" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400" required>
                             </div>
                             <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
                                 Agregar Sucursal
@@ -67,16 +112,23 @@
                             {% endif %}
 
                             {% for drink in drinks %}
-                                <div class="flex items-center gap-4">
-                                    <img src="{{ drink[3] }}" alt="[Imagen de {{ drink[1] }}]" class="w-16 h-16 object-cover rounded-md">
-                                    <div>
-                                        <p class="font-bold text-gray-800">{{ drink[1] }}</p>
-                                        <p class="text-sm text-emerald-600 font-semibold">{{ drink[2] }}</p>
+                                <div class="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
+                                    <div class="flex items-center gap-4">
+                                        <img src="{{ drink[4] }}" alt="Imagen de {{ drink[1] }}" class="w-16 h-16 object-cover rounded-md">
+                                        <div>
+                                            <p class="font-bold text-gray-800">{{ drink[1] }}</p>
+                                            {% for sucursal in sucursales %}
+                                                {% if sucursal[0]|string == drink[5]|string %}
+                                                    <p class="text-sm text-gray-500">{{ sucursal[1] }}</p>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <p class="text-sm text-emerald-600 font-semibold">${{ "%.2f"|format(drink[2]|float) }}</p>
+                                        </div>
                                     </div>
+                                    <button class="delete-product text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors" data-id="{{ drink[0] }}" data-type="product">
+                                        <i data-lucide="trash-2" class="w-5 h-5"></i>
+                                    </button>
                                 </div>
-                                <button class="delete-product text-red-500 hover:text-red-700 p-2" data-id="{{ drink[0] }}">
-                                    <i data-lucide="trash-2" class="w-5 h-5"><a href="{{ url_for('delete_product', id=drink[0]) }}"></a></i>
-                                </button>
                             {% endfor %}
                         </div>
                     </div>
@@ -91,8 +143,8 @@
                             {% for sucursal in sucursales %}
                                 <div class="flex items-center justify-between bg-gray-50 px-4 py-3 rounded-lg">
                                     <p class="font-semibold text-gray-800">{{ sucursal[1] }}</p>
-                                    <button class="delete-branch text-red-500 hover:text-red-700 p-2" data-id="{{ sucursal[0] }}">
-                                        <i data-lucide="trash-2" class="w-5 h-5"><a href="{{ url_for('delete_sucursal', id=sucursal[0]) }}"></a></i>
+                                    <button class="delete-branch text-red-500 hover:text-red-700 p-2 rounded-full hover:bg-red-100 transition-colors" data-id="{{ sucursal[0] }}" data-type="branch">
+                                        <i data-lucide="trash-2" class="w-5 h-5"></i>
                                     </button>
                                 </div>
                             {% endfor %}
@@ -100,6 +152,90 @@
                     </div>
                 </div>
             </div>
+
+            {#Modals for deletion confirmation#}
+            <div id="delete-confirmation-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+                <div class="bg-white p-8 rounded-xl shadow-2xl max-w-sm w-full text-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">¿Estás seguro?</h3>
+                    <p class="text-gray-600 mb-8">Esta acción no se puede deshacer. El elemento será eliminado permanentemente.</p>
+                    <div class="flex justify-center gap-4">
+                        <button id="cancel-delete-btn" class="px-8 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold transition-colors">
+                            Cancelar
+                        </button>
+                        <button id="confirm-delete-btn" class="px-8 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white font-semibold transition-colors">
+                            Sí, eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+
+
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Referencias a los elementos del modal
+            const modal = document.getElementById('delete-confirmation-modal');
+            const confirmBtn = document.getElementById('confirm-delete-btn');
+            const cancelBtn = document.getElementById('cancel-delete-btn');
+
+            let deleteUrl = ''; // Variable para guardar la URL de eliminación
+
+            // Función para mostrar el modal
+            function showModal(url) {
+                deleteUrl = url; // Guardamos la URL que se usará si se confirma
+                modal.classList.remove('hidden');
+            }
+
+            // Función para ocultar el modal
+            function hideModal() {
+                deleteUrl = ''; // Limpiamos la URL
+                modal.classList.add('hidden');
+            }
+
+            // Escuchamos clics en todo el documento para capturar los botones de eliminar
+            document.body.addEventListener('click', function(event) {
+                // Buscamos si el clic fue en un botón con la clase 'delete-product' o 'delete-branch'
+                const deleteButton = event.target.closest('.delete-product, .delete-branch');
+
+                if (deleteButton) {
+                    const id = deleteButton.dataset.id;
+                    const type = deleteButton.dataset.type;
+
+                    // Construimos la URL de eliminación basada en el tipo (producto o sucursal)
+                    let url;
+                    if (type === 'product') {
+                        url = `/delete-products/${id}`;
+                    } else if (type === 'branch') {
+                        url = `/delete-branch/${id}`;
+                    }
+
+                    if (url) {
+                        showModal(url);
+                    }
+                }
+            });
+
+            // Acción del botón de cancelar
+            cancelBtn.addEventListener('click', hideModal);
+
+            // Acción del botón de confirmar
+            confirmBtn.addEventListener('click', () => {
+                if (deleteUrl) {
+                    // Redirigimos a la URL de Flask para que procese la eliminación
+                    window.location.href = deleteUrl;
+                }
+            });
+
+            // Opcional: Cerrar el modal si se hace clic fuera de él
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
