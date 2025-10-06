@@ -1,0 +1,151 @@
+:root {
+    --bg-main: #FFF9E8;
+    --text-main: #3D2C24;
+    --brand-purple: #6A4C9C;
+    --brand-green-dark: #93D501;
+    --brand-green-light: #93D501;
+    --font-headings: 'Nunito', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+/* --- 2. ESTILO GENERAL --- */
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    overflow: hidden; /* <-- Esta línea deshabilita el scroll */
+}
+
+/* --- 3. TARJETA DE LOGIN --- */
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 3px solid var(--text-main);
+    box-shadow: 8px 8px 0 var(--text-main);
+    text-align: center;
+}
+
+/* Pon esta nueva regla en tu archivo login.css */
+
+.login-logo img {
+    height: 150px; /* <-- Define la altura del logo. Puedes cambiar este valor. */
+    width: auto;  /* <-- Mantiene la proporción correcta. */
+    margin: 0 auto 1rem auto; /* <-- Centra el logo y le da un margen inferior. */
+}
+
+.login-logo {
+    display: inline-block;
+    font-family: var(--font-headings);
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--brand-purple);
+    margin-bottom: 0.5rem;
+}
+.login-logo span {
+    font-size: 1rem;
+    display: block;
+    color: var(--brand-green-dark);
+    margin-top: -10px;
+}
+
+.login-title {
+    font-family: var(--font-headings);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    font-size: 1rem;
+    color: #6b7280; /* Gris medio */
+    margin-bottom: 2rem;
+}
+
+/* --- 4. FORMULARIO --- */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af; /* Gris claro */
+    pointer-events: none;
+}
+
+.form-input {
+    box-sizing: border-box; 
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    border: 2px solid var(--text-main);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: var(--bg-main);
+    transition: all 0.2s ease;
+}
+
+.form-input::placeholder {
+    color: #6b7280;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--brand-purple);
+    box-shadow: 0 0 0 3px rgba(106, 76, 156, 0.3);
+}
+
+.btn {
+    display: inline-block;
+    width: 100%;
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-headings);
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: 3px solid var(--text-main);
+    box-shadow: 4px 4px 0 var(--text-main);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--brand-purple);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px) translateX(-2px);
+    box-shadow: 6px 6px 0 var(--text-main);
+}
+.btn:active {
+    transform: translateY(2px) translateX(2px);
+    box-shadow: 2px 2px 0 var(--text-main);
+}
+
+/* --- 5. MENSAJES DE ERROR --- */
+.flash-message {
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    border: 2px solid;
+}
+
+.flash-message.error {
+    background-color: #FEE2E2; /* Rojo claro */
+    border-color: #DC2626; /* Rojo oscuro */
+    color: #B91C1C; /* Rojo muy oscuro */
+}

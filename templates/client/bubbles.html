@@ -10,262 +10,233 @@
 
 {% block content %}
     <!-- ========== BARRA DE NAVEGACIÓN ========== -->
-    <header id="header" class="bg-white/80 backdrop-blur-md fixed top-0 left-0 right-0 z-50 shadow-sm transition-all duration-300">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#inicio" class="text-2xl font-extrabold text-emerald-600">
-                Pop<span class="text-emerald-400">Bubbles</span>
+    </head>
+<body id="inicio">
+     <header class="main-header">
+        <div class="container">
+           <a href="#" class="logo">
+                 <img src="static\images\Logo.png" alt="Logo de Pop Bubbles">
             </a>
-            <div class="flex items-center space-x-8">
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#inicio" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Inicio</a>
-                    <a href="#sobre-nosotros" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Misión</a>
-                    <a href="#ordenar" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Ordenar</a>
-                    <a href="#contacto" class="text-gray-600 hover:text-emerald-600 font-semibold transition-colors">Contacto</a>
-                </nav>
-                <!-- Icono de Carrito -->
-                <div class="relative">
-                    <button id="cart-button" class="text-gray-600 hover:text-emerald-600">
-                        <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-                    </button>
-                    <span id="cart-count" class="absolute -top-2 -right-3 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                </div>
-                <button id="mobile-menu-button" class="md:hidden text-gray-700">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
+            <nav class="main-nav">
+                <a href="#inicio">Inicio</a>
+                <a href="#menu">Menú</a>
+                <a href="#contacto">Contactanos</a>
+            </nav>
         </div>
-
     </header>
 
     <main>
-        <!-- ... (Secciones Inicio y Sobre Nosotros sin cambios) ... -->
-        <section id="inicio" class="hero-bg min-h-screen flex items-center pt-20">
-            <div class="container mx-auto px-6 text-white text-left">
-                <div class="max-w-xl">
-                    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">
-                        La Felicidad es un <span class="text-emerald-400">Bubble Tea</span> a la Vez.
-                    </h1>
-                    <p class="text-lg md:text-xl mb-8 text-gray-200">
-                        Descubre una explosión de sabores únicos y refrescantes. Hechos con ingredientes frescos y mucho amor.
+        <div class="container">
+            <section class="content-section">
+                <div class="image-container">
+                    <img src="static\images\mision-mascota.png" alt="Mascota Guardia de Pop Bubbles">
+                </div>
+                <div class="text-content">
+                    <h2 class="section-title">Misión</h2>
+                    <p>
+                        Ser la marca de referencia en bebidas frappe con boba, ofreciendo una experiencia de sabor única y refrescante. Nos comprometemos a utilizar ingredientes de la más alta calidad, priorizando la innovación en nuestros sabores y la satisfacción de nuestros clientes en cada sorbo. Buscamos crear un ambiente vibrante y acogedor donde la gente pueda disfrutar de un momento delicioso y energizante.
                     </p>
-                    <a href="#ordenar" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-transform transform hover:scale-105 inline-block">
-                        ¡Pide Ahora!
-                    </a>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section id="sobre-nosotros" class="py-20 md:py-32 bg-white bubble-bg">
-            <div class="container mx-auto px-6">
-                <div class="flex flex-col md:flex-row items-center gap-12 md:gap-16">
-                    <div class="w-full md:w-1/2 rounded-lg overflow-hidden shadow-2xl transform hover:scale-105 transition-transform duration-500">
-                        <img src="static/images/bubble_tea.jpg" alt="[Bebida Matcha de Pop Bubbles Tea]" class="h-64 bject-cover">
+            <section class="content-section">
+                <div class="image-container">
+                    <img src="static\images\vision-mascota.png" alt="Mascota de Pop Bubbles">
+                </div>
+                <div class="text-content">
+                    <h2 class="section-title">Visión</h2>
+                    <p>
+                        Expandir nuestra marca para ser reconocida a nivel nacional como el destino predilecto para los amantes de las bebidas frappe y el té de burbujas. Seremos pioneros en la creación de sabores y texturas emocionantes, estableciendo un estándar de excelencia en la calidad del producto y el servicio al cliente. Soñamos con que nuestra boba sea sinónimo de felicidad, innovación y el placer de un antojo perfecto.
+                    </p>
+                </div>
+            </section>
+            
+            <section class="content-section">
+                <div class="image-container">
+                     <img src="static\images\historia-mascota.png" alt="Vaso de Pop Bubbles">
+                </div>
+                <div class="text-content">
+                    <h2 class="section-title">Nuestra historia</h2>
+                    <p>
+                        La marca "POPS BUBBLES TEA" es pionera en Morelia, pues desde el año 2010 comenzó a incluir las bolitas de tapioca en las bebidas.
+                        <br><br>
+                        Contamos con una amplia variedad de sabores que dan más de un millón de combinaciones, somos únicos y naturales nuestras pulpas son preparadas con la más sabrosa pulpa natural así cada sorbo es una explosión de frescura Y que lo convierten en una experiencia única, divertida y original Además que ofrecemos opciones de personalización tan únicas como tú lo puedas querer y hacer posible.
+                        <br><br>
+                        Atrevete a probar cada sabor y combinación existente en bubbles y descubre por qué es mucho más que una bebida, cada vez que lo pruebes descubrirás una experiencia refres- cante que estimulará tus sentidos y se grabará en tu memoria!!!
+                    </p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <section id="menu" class="fade-in-section">
+            <div class="container">
+                <div class="text-content" style="text-align: center; margin-bottom: 3rem;">
+                    <h2 class="section-title">Nuestro Menú</h2>
+                </div>
+                
+                <div class="card">
+                    <div class="form-group">
+                        <label for="branch-selector" class="form-label" style="text-align:center; font-size: 1.5rem;">Paso 1: ¡Elige tu sucursal! 📍</label>
+                        <select id="branch-selector" class="form-select">
+                            <option value="" disabled selected>-- Selecciona dónde recoger tu felicidad --</option>
+                            {% for sucursal in sucursales %}
+                                <option value="{{ sucursal[0] }}">{{ sucursal[1] }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
-                    <div class="w-full md:w-1/2 text-center md:text-left">
-                        <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Nuestra <span class="text-emerald-500">Misión</span></h2>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            En <strong>Pop Bubbles Tea</strong>, todo comenzó con un sueño: crear un lugar feliz donde cada sorbo contara una historia. Seleccionamos cuidadosamente las mejores hojas de té, frutas frescas y perlas de tapioca que hacen "pop" de sabor en tu boca.
-                        </p>
-                        <p class="text-gray-600 mb-6 leading-relaxed">
-                            Somos más que una tienda de bubble tea; somos una comunidad de amigos que comparten la alegría por los sabores auténticos y los momentos especiales.
-                        </p>
-                        <div class="flex justify-center md:justify-start space-x-4">
-                            <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
-                                <i data-lucide="leaf" class="w-8 h-8 mx-auto mb-2"></i>
-                                <span class="font-semibold">Ingredientes Frescos</span>
-                            </div>
-                             <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
-                                <i data-lucide="smile" class="w-8 h-8 mx-auto mb-2"></i>
-                                <span class="font-semibold">Hecho con Amor</span>
-                            </div>
-                             <div class="bg-emerald-100 text-emerald-800 p-4 rounded-lg text-center">
-                                <i data-lucide="award" class="w-8 h-8 mx-auto mb-2"></i>
-                                <span class="font-semibold">Calidad Premium</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== SECCIÓN ORDENAR ========== -->
-        <section id="ordenar" class="py-20 md:py-32 bg-emerald-50">
-            <div class="container mx-auto px-6">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Elige tu Sabor Favorito</h2>
-                    <p class="text-gray-600 mb-12">Comienza por seleccionar tu sucursal más cercana para ver el menú disponible.</p>
-                </div>
-
-                <div class="max-w-md mx-auto mb-12">
-                     <label for="branch-selector" class="block text-gray-700 font-semibold mb-2 text-center">Paso 1: Elige tu sucursal</label>
-                    <select id="branch-selector" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow text-lg">
-                        <option value="" disabled selected>-- Selecciona una sucursal --</option>
-                        {% for sucursal in sucursales %}
-                            <option value="{{ sucursal[0] }}">{{ sucursal[1] }}</option>
-                        {% endfor %}
-                    </select>
                 </div>
 
                 <div id="menu-container" class="hidden">
-                    <h3 class="text-2xl font-bold text-center text-emerald-700 mb-10">Paso 2: Arma tu pedido</h3>
-                    <div id="menu-items" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <!-- Los productos se cargarán aquí dinámicamente -->
+                    <div class="text-content" style="text-align: center; margin-bottom: 3rem;">
+                        <h2 class="section-title" style="font-size: 2rem;">Paso 2: Arma tu pedido</h2>
                     </div>
+                    <div id="menu-items" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                        </div>
                 </div>
             </div>
         </section>
 
-        <!-- ... (Sección Contacto y Footer sin cambios) ... -->
-        <section id="contacto" class="py-20 md:py-32 bg-white">
-            <div class="container mx-auto px-6">
-                <div class="max-w-3xl mx-auto text-center">
-                    <h2 class="text-3xl md:text-4xl font-bold text-emerald-800 mb-4">¿Tienes una idea o un antojo?</h2>
-                    <p class="text-gray-600 mb-12">Nos encantaría escucharte. Envíanos un mensaje y te responderemos tan rápido como preparamos tu bebida favorita.</p>
+        <section id="contacto" class="fade-in-section">
+            <div class="container">
+                <div class="text-content" style="text-align: center; margin-bottom: 3rem;">
+                    <h2 class="section-title">¡Contáctanos!</h2>
+                    <p style="max-width: 600px; margin: 1rem auto 0;">¿Tienes una idea, un antojo o una duda? Nos encantaría escucharte.</p>
                 </div>
 
-                <div class="max-w-xl mx-auto bg-white p-8 md:p-12 rounded-xl shadow-lg border border-gray-100">
-                    <form id="contact-form" action = "/add-comments" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" >
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-700 font-semibold mb-2">Nombre Completo</label>
-                            <input type="text" id="name" name="name" placeholder="Tu nombre aquí" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required>
+                <div class="card">
+                    <form id="contact-form" action="/add-comments" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <div class="form-group">
+                            <label for="name" class="form-label">Nombre Completo</label>
+                            <input type="text" id="name" name="name" placeholder="Tu nombre aquí" class="form-input" required>
                         </div>
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-700 font-semibold mb-2">Correo Electrónico</label>
-                            <input type="email" id="email" name="email" placeholder="tu@correo.com" class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required>
+                        <div class="form-group">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="tu@correo.com" class="form-input" required>
                         </div>
-                        <div class="mb-8">
-                            <label for="message" class="block text-gray-700 font-semibold mb-2">Mensaje</label>
-                            <textarea id="message" name="message" rows="5" placeholder="Cuéntanos cómo podemos ayudarte..." class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-shadow" required></textarea>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Mensaje</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Cuéntanos cómo podemos ayudarte..." class="form-textarea" required></textarea>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-12 rounded-full text-lg w-full transition-transform transform hover:scale-105">
-                                Enviar Mensaje
-                            </button>
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                         </div>
                     </form>
-                    {%with messages = get_flashed_messages()  %}
-                        <br/>
-                        {% if messages%}
-                            {% for message in messages %}
-                            <div class = "alert alert-warning alert-dismissible" role="alert">
-                                <strong>{{ message }}</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-                            </div>
-
-                            {% endfor %}
-                        {% endif %}
-
-                    {% endwith %}
-                    <div id="form-feedback" class="mt-6 text-center"></div>
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="bg-emerald-800 text-white">
-        <div class="container mx-auto px-6 py-8 text-center">
-            <p class="font-semibold text-lg mb-2">Pop Bubbles Tea</p>
-            <p class="text-emerald-200">&copy; 2024. Todos los derechos reservados. Creado con ❤️ para los amantes del té.</p>
-        </div>
-    </footer>
-
-    <!-- ========== PANEL LATERAL DEL CARRITO ========== -->
-    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"></div>
-    <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-xl z-50 transform translate-x-full flex flex-col">
-        <!-- Header del Carrito -->
-        <div class="flex justify-between items-center p-6 border-b">
-            <h3 class="text-2xl font-bold text-emerald-800">Tu Carrito</h3>
-            <button id="close-cart-button" class="text-gray-500 hover:text-gray-800">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-        </div>
-        <!-- Items del Carrito -->
-        <div id="cart-items-container" class="flex-grow p-6 overflow-y-auto">
-            <!-- Los items del carrito se insertarán aquí -->
-             <p id="empty-cart-message" class="text-gray-500 text-center mt-8">Tu carrito está vacío.</p>
-        </div>
-        <!-- Footer del Carrito -->
-        <div class="p-6 border-t bg-gray-50">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-lg font-semibold text-gray-700">Total:</span>
-                <span id="cart-total" class="text-2xl font-bold text-emerald-600">$0.00</span>
-            </div>
-            <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-lg transition-colors">
-                Finalizar Compra
-            </button>
-        </div>
-    </div>
-
     <script>
-        // Paso 1: Convertimos la lista de productos de Flask a una variable de JavaScript.
-        // Usamos el filtro 'tojson' para asegurar que el formato sea correcto.
-        const allDrinks = {{ drinks|tojson }};
+    const allDrinks = {{ drinks|tojson }};
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // Paso 2: Obtenemos las referencias a los elementos del DOM que usaremos.
-            const branchSelector = document.getElementById('branch-selector');
-            const menuContainer = document.getElementById('menu-container');
-            const menuItemsContainer = document.getElementById('menu-items');
+    document.addEventListener('DOMContentLoaded', () => {
+        const branchSelector = document.getElementById('branch-selector');
+        const menuContainer = document.getElementById('menu-container');
+        const menuItemsContainer = document.getElementById('menu-items');
 
-            // Paso 3: Agregamos un 'escuchador' de eventos para el selector de sucursales.
-            branchSelector.addEventListener('change', function() {
-                // Obtenemos el ID de la sucursal seleccionada. 'this.value' se refiere al valor del <option> seleccionado.
-                const selectedBranchId = this.value;
+        branchSelector.addEventListener('change', function() {
+            const selectedBranchId = this.value;
 
-                // Si el usuario no ha seleccionado nada, ocultamos el menú y terminamos.
-                if (!selectedBranchId) {
-                    menuContainer.classList.add('hidden');
-                    return;
-                }
+            if (!selectedBranchId) {
+                menuContainer.classList.add('hidden');
+                return;
+            }
 
-                // Paso 4: Filtramos la lista completa de bebidas.
-                // Nos quedamos solo con las que pertenecen a la sucursal seleccionada.
-                // IMPORTANTE: Asumimos que `drink[5]` es el ID de la sucursal. ¡Ajusta este número si es diferente!
-                const filteredDrinks = allDrinks.filter(drink => drink[5] == selectedBranchId);
+            const filteredDrinks = allDrinks.filter(drink => drink[5] == selectedBranchId);
 
-                // Limpiamos el contenido actual del contenedor del menú.
-                menuItemsContainer.innerHTML = '';
+            menuItemsContainer.innerHTML = '';
 
-                // Paso 5: Generamos el HTML para los productos filtrados.
-                if (filteredDrinks.length > 0) {
-                    // Usamos `map` para crear una tarjeta HTML por cada producto y `join` para unirlas todas en un solo string.
-                    const menuHtml = filteredDrinks.map(drink => `
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 menu-item-card">
-                            <img src="${drink[4]}" alt="Imagen de ${drink[1]}" class="w-full h-48 object-cover" style="height: 150px;">
-                            <div class="p-6">
-                                <h4 class="text-xl font-bold mb-2">${drink[1]}</h4>
-                                <p class="text-gray-600 mb-4 text-sm">${drink[3]}</p>
-                                <div class="flex justify-between items-center">
-                                    <span class="text-xl font-extrabold text-emerald-600">$${parseFloat(drink[2]).toFixed(2)}</span>
-                                    <button class="add-to-cart-btn bg-emerald-100 text-emerald-800 hover:bg-emerald-200 font-bold py-2 px-4 rounded-full transition-colors flex items-center gap-2" data-id="${drink[0]}">
-                                        <i data-lucide="plus-circle" class="w-5 h-5"></i>
-                                        Agregar
-                                    </button>
-                                </div>
+            if (filteredDrinks.length > 0) {
+                const menuHtml = filteredDrinks.map((drink, index) => `
+                    <div class="bg-white rounded-3xl shadow-xl overflow-hidden 
+                                 transform hover:scale-[1.03] transition-all duration-300 
+                                 border border-gray-100 menu-item-card" style="animation-delay: ${index * 0.1}s;">
+                        <img src="${drink[4]}" alt="Imagen de ${drink[1]}" 
+                             class="w-full object-cover rounded-t-3xl" style="height: 180px;">
+                        <div class="p-6">
+                            <h4 class="text-2xl font-bold text-emerald-800 mb-2">${drink[1]}</h4>
+                            <p class="text-gray-500 mb-4 text-sm line-clamp-2">${drink[3]}</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                                <span class="text-2xl font-extrabold text-red-500">$${parseFloat(drink[2]).toFixed(2)}</span>
+                                <button class="add-to-cart-btn 
+                                               bg-emerald-500 hover:bg-emerald-600 text-white 
+                                               font-semibold py-2 px-4 rounded-full 
+                                               shadow-md hover:shadow-lg transition-all duration-200 
+                                               flex items-center gap-2 text-sm" 
+                                        data-id="${drink[0]}">
+                                    <i data-lucide="plus" class="w-5 h-5"></i>
+                                    Agregar
+                                </button>
                             </div>
                         </div>
-                    `).join('');
+                    </div>
+                `).join('');
 
-                    // Insertamos el HTML generado en el contenedor.
-                    menuItemsContainer.innerHTML = menuHtml;
+                menuItemsContainer.innerHTML = menuHtml;
 
-                } else {
-                    // Si no hay productos para esta sucursal, mostramos un mensaje.
-                    menuItemsContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center">Lo sentimos, no hay productos disponibles en esta sucursal.</p>';
-                }
+            } else {
+                menuItemsContainer.innerHTML = '<p class="text-gray-500 col-span-full text-center">Lo sentimos, no hay productos disponibles en esta sucursal.</p>';
+            }
 
-                // Paso 6: Hacemos visible el contenedor principal del menú.
-                menuContainer.classList.remove('hidden');
-
-                // Paso 7 (Opcional pero recomendado): Si usas una librería de iconos como Lucide,
-                // necesitas reiniciarla para que reconozca los nuevos iconos que acabamos de agregar.
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
-                }
-            });
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
+            }
         });
-    </script>
+
+        // Este código es para el carrito (abrir/cerrar)
+        const cartButton = document.getElementById('cart-button');
+        const closeCartButton = document.getElementById('close-cart-button');
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+
+        function toggleCart() {
+            cartSidebar.classList.toggle('translate-x-full');
+            cartOverlay.classList.toggle('hidden');
+        }
+
+        cartButton.addEventListener('click', toggleCart);
+        closeCartButton.addEventListener('click', toggleCart);
+        cartOverlay.addEventListener('click', toggleCart); // Cierra el carrito al hacer clic fuera
+    });
+
+    // Script para animar la entrada de las secciones al hacer scroll
+const fadeInSections = document.querySelectorAll('.fade-in-section');
+
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1 // Porcentaje de la sección visible para activar la animación
+};
+
+const sectionObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target); // Dejar de observar una vez animada
+        }
+    });
+}, observerOptions);
+
+fadeInSections.forEach(section => {
+    sectionObserver.observe(section);
+});
+
+// Actualización del contador del carrito para mostrar/ocultar
+const updateCartCount = () => {
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartCountElement = document.getElementById('cart-count');
+    if (cartItems.length > 0) {
+        cartCountElement.textContent = cartItems.length;
+        cartCountElement.classList.remove('hidden');
+    } else {
+        cartCountElement.classList.add('hidden');
+    }
+};
+
+updateCartCount(); // Llama al inicio para asegurar el estado correcto
+</script>
 
 
 {% endblock %}

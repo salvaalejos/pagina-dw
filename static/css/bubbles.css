@@ -1,32 +1,255 @@
-/* Estilos personalizados y configuración de Tailwind */
-body {
-    font-family: 'Poppins', sans-serif;
-    scroll-behavior: smooth;
+ :root {
+            --bg-main: #FFEBB4;      /* Crema claro del fondo */
+            --text-main: #3D2C24;    /* Café oscuro para el texto */
+            --brand-purple: #613B84; /* Morado de la navegación y logo */
+            --brand-green-dark: #93D501; /* Verde oscuro del logo y header */
+            --brand-green-light: #93D501;; /* Verde claro del header */
+            
+            /* Tipografías para replicar el estilo amigable */
+            --font-headings: 'Nunito', sans-serif;
+            --font-body: 'Poppins', sans-serif;
+        }
+
+        /* --- 2. ESTILOS GLOBALES --- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.7;
+            font-size: 16px;
+            padding-top: 85px; /* Espacio para el header fijo */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 960px; /* Un poco más angosto para parecerse a la imagen */
+            margin: 0 auto;
+        }
+
+        /* --- 3. HEADER / NAVEGACIÓN --- */
+        /* DESPUÉS */
+.main-header {
+    /* Propiedades para hacerlo fijo */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegura que esté por encima de todo */
+
+    /* Estilos que ya tenía */
+    background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
+    padding: 0.5rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-.hero-bg {
-    background-image: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('https://images.pexels.com/photos/5405820/pexels-photo-5405820.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
-    background-size: cover;
-    background-position: center;
+
+        /* DESPUÉS */
+.main-header .container {
+    width: 100%; 
+    max-width: none;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    
+    /* Cambiamos flex por grid */
+    display: grid;
+    /* Creamos 3 columnas: 
+       1fr (espacio flexible), auto (lo que ocupe la nav), 1fr (espacio flexible) */
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
 }
-.bubble-bg {
-    background-image:
-        radial-gradient(circle at 15% 50%, rgba(167, 243, 208, 0.3), transparent 30%),
-        radial-gradient(circle at 85% 30%, rgba(167, 243, 208, 0.3), transparent 30%),
-        radial-gradient(circle at 60% 80%, rgba(167, 243, 208, 0.2), transparent 40%);
+
+        .logo img {
+             height: 100px; /* <-- Ajusta esta altura según el tamaño que prefieras */
+             width: auto;  /* Mantiene la proporción correcta de la imagen */
+             display: block; /* Ayuda a evitar espacios extra indeseados */
+        }
+
+
+.main-nav a {
+    font-family: var(--font-headings);
+    color: white; /* <-- 1. Color de letra blanco */
+    text-decoration: none;
+    margin: 0 1.25rem;
+    font-weight: 800; /* Un poco más grueso para que se vea mejor */
+    font-size: 2rem; /* <-- 2. Letras más grandes */
+    
+    /* -- 3. El borde morado -- */
+    -webkit-text-stroke: 2px var(--brand-purple);
+
+    transition: all 0.2s ease; /* Transición más suave */
 }
-/* Animación para el menú */
-.menu-item-card {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeIn 0.5s forwards;
+
+/* Nuevo efecto al pasar el mouse */
+.main-nav a:hover {
+    color: var(--brand-purple);
+    -webkit-text-stroke: 0; /* Quitamos el borde para un efecto "relleno" */
 }
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        /* --- 4. CONTENIDO PRINCIPAL --- */
+        main {
+            padding: 4rem 0;
+        }
+
+        .content-section {
+            display: flex;
+            align-items: center;
+            gap: 3rem; /* Espacio entre imagen y texto */
+            margin-bottom: 5rem;
+        }
+        
+        .content-section .image-container {
+            flex-shrink: 0; /* Evita que la imagen se encoja */
+            width: 200px;
+        }
+        
+        .content-section img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Estilo para los títulos de sección (Misión, Visión, etc.) */
+        .section-title {
+            font-family: var(--font-headings);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block; /* Para que el borde se ajuste al texto */
+        }
+        
+        /* El subrayado característico */
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 80%; /* Ancho del subrayado */
+            height: 4px; /* Grosor del subrayado */
+            background-color: var(--text-main);
+        }
+        
+        .text-content p {
+            font-size: 1rem;
+        }
+
+
+        /* --- 5. ESTILOS PARA SECCIONES ADICIONALES --- */
+
+/* Estilo para las tarjetas de Menú y Contacto */
+.card {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 2.5rem;
+    border: 3px solid var(--text-main);
+    box-shadow: 8px 8px 0 var(--text-main);
+    margin-bottom: 3rem;
 }
-/* Estilos para el carrito */
-#cart-sidebar {
-    transition: transform 0.3s ease-in-out;
+
+/* Estilos para el formulario */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-headings);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid var(--text-main);
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    background-color: var(--bg-main);
+    transition: all 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--brand-purple);
+    box-shadow: 0 0 0 3px rgba(106, 76, 156, 0.3);
+}
+
+/* Botón principal */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-headings);
+    font-weight: 700;
+    font-size: 1.2rem;
+    border: 3px solid var(--text-main);
+    box-shadow: 4px 4px 0 var(--text-main);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--brand-purple);
+    color: white;
+}
+
+.btn:hover {
+    transform: translateY(-2px) translateX(-2px);
+    box-shadow: 6px 6px 0 var(--text-main);
+}
+.btn:active {
+    transform: translateY(2px) translateX(2px);
+    box-shadow: 2px 2px 0 var(--text-main);
+}
+
+/* --- 6. FOOTER --- */
+.main-footer {
+    background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
+    padding: 2rem 0;
+    text-align: center;
+    border-top: 4px solid var(--text-main);
+}
+
+.main-footer .logo-footer {
+    font-family: var(--font-headings);
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--brand-purple);
+    margin-bottom: 0.5rem;
+}
+
+.main-footer p {
+    color: var(--brand-purple);
+    font-weight: 500;
+}
+
+/* --- 7. CARRITO --- */
+.cart-header {
+    background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
+    padding: 1rem 1.5rem;
+    border-bottom: 4px solid var(--text-main);
+}
+.cart-header h3 {
+    font-family: var(--font-headings);
+    color: white;
+    -webkit-text-stroke: 2px var(--brand-purple);
+    font-size: 1.8rem;
+}
+.cart-footer {
+    padding: 1.5rem;
+    background-color: var(--bg-main);
+    border-top: 2px solid #eee;
 }

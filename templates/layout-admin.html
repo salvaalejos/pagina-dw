@@ -22,37 +22,7 @@
 
 
 {% block body %}
-    <div class="flex h-screen bg-gray-100">
-        <!-- ========== PANEL DE NAVEGACIÓN VERTICAL ========== -->
-        <aside class="w-64 flex-shrink-0 bg-gray-800 text-white flex flex-col">
-            <div class="h-20 flex items-center justify-center bg-gray-900">
-                <h1 class="text-2xl font-bold text-emerald-500">PopBubbles</h1>
-            </div>
-            <nav class="flex-grow p-4 space-y-2">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
-                    <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
-                    <span>Estadísticas</span>
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-emerald-600 text-white font-semibold transition-colors">
-                    <i data-lucide="plus-square" class="w-5 h-5"></i>
-                    <span>Añadir Elementos</span>
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
-                    <i data-lucide="users" class="w-5 h-5"></i>
-                    <span>Usuarios</span>
-                </a>
-            </nav>
-            <div class="p-4 border-t border-gray-700">
-                <a href="{{ url_for('bubbles') }}" target="_blank" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700 hover:text-white transition-colors">
-                    <i data-lucide="external-link" class="w-5 h-5"></i>
-                    <span>Ver Tienda</span>
-                </a>
-                <a href="{{ url_for('logout') }}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-red-400 hover:bg-red-500 hover:text-white transition-colors">
-                    <i data-lucide="log-out" class="w-5 h-5"></i>
-                    <span>Cerrar Sesión</span>
-                </a>
-            </div>
-        </aside>
+    
         {% block content %}
         {% endblock %}
 
