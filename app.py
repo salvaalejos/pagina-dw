@@ -25,7 +25,8 @@ from models.ModelSucursal import ModelSucursal
 # 2. Configuración de la App: Añadimos CORS
 # -----------------------------------------------------------------
 app = Flask(__name__)
-CORS(app)  # Habilitamos CORS para toda la aplicación
+# Reemplaza la línea simple de CORS con esta:
+CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:3001"}})
 
 app.jinja_env.add_extension(loopcontrols)
 app.config.from_object(config['development'])

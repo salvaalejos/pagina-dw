@@ -5,7 +5,7 @@ class ModelUser():
     def login(self, db, user):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT * FROM usuarios WHERE usuario = %s AND password = %s"
+            sql = "SELECT * FROM usuarios WHERE username = %s AND password = %s"
             values = (user.username, user.password)
             cursor.execute(sql, values)
             row = cursor.fetchone()

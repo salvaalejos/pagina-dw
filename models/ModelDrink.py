@@ -11,7 +11,7 @@ class ModelDrink():
             if result is not None:
                 return result
             else:
-                return False
+                return []
         except Exception as ex:
             raise Exception(ex)
 

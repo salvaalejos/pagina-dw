@@ -3,3 +3,4 @@ Flask-MySQLdb
 Flask-WTF
 Flask-Login
 Werkzeug
+flask_cors
