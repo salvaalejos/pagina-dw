@@ -78,7 +78,7 @@ function LoginPage() {
                         id="username"
                         type="text"
                         className="form-input"
-                        placeholder="Nombre de usuario"
+                        placeholder="         Nombre de usuario"
                         {...register("username", { required: "El nombre de usuario es obligatorio" })}
                     />
                     {/* Error de validación del frontend */}
@@ -91,7 +91,7 @@ function LoginPage() {
                         id="password"
                         type="password"
                         className="form-input"
-                        placeholder="Contraseña"
+                        placeholder="         Contraseña"
                         {...register("password", { required: "La contraseña es obligatoria" })}
                     />
                     {/* Error de validación del frontend */}

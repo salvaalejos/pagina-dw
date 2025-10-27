@@ -66,11 +66,7 @@ function MenuSection({ products, branches }) {
                     <div className="text-content" style={{ textAlign: 'center', marginBottom: '3rem' }}>
                         <h2 className="section-title" style={{ fontSize: '2rem' }}>Paso 2: Arma tu pedido</h2>
                     </div>
-                    {/* Este es el HTML de tu script de `bubbles.html`,
-                      ahora renderizado con React.
-                      NOTA: Esto usa clases de TailwindCSS. ¡Asegúrate de tener Tailwind instalado
-                      o reemplaza estas clases por las tuyas!
-                    */}
+                    
                     <div id="menu-items" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
 
                         {filteredProducts.length > 0 ? (

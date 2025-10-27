@@ -22,21 +22,20 @@ body {
 /* --- 3. TARJETA DE LOGIN --- */
 .login-card {
     width: 100%;
-    max-width: 450px;
+    height: auto;
+    max-width: 700px;
     background-color: #fff;
     border-radius: 20px;
-    padding: 2.5rem;
+    padding: 4rem;
     border: 3px solid var(--text-main);
     box-shadow: 8px 8px 0 var(--text-main);
     text-align: center;
 }
 
-/* Pon esta nueva regla en tu archivo login.css */
-
 .login-logo img {
-    height: 150px; /* <-- Define la altura del logo. Puedes cambiar este valor. */
-    width: auto;  /* <-- Mantiene la proporción correcta. */
-    margin: 0 auto 1rem auto; /* <-- Centra el logo y le da un margen inferior. */
+    height: 150px;
+    width: auto;  
+    margin: 0 auto 1rem auto; 
 }
 
 .login-logo {
@@ -76,7 +75,7 @@ body {
 
 .form-icon {
     position: absolute;
-    left: 1rem;
+    left: 1.2rem;
     top: 50%;
     transform: translateY(-50%);
     color: #9ca3af; /* Gris claro */
@@ -86,7 +85,8 @@ body {
 .form-input {
     box-sizing: border-box; 
     width: 100%;
-    padding: 0.8rem 1rem 0.8rem 3rem;
+    padding:0.8rem 1rem 0.8rem 4.8rem;
+    
     border: 2px solid var(--text-main);
     border-radius: 10px;
     font-family: var(--font-body);
