@@ -1,0 +1,82 @@
+/* Reutilizamos el fondo y fuentes de bubbles.css */
+.my-orders-page {
+    background-color: var(--bg-main);
+    padding-bottom: 5rem; /* Espacio para el footer */
+    min-height: 80vh;
+}
+
+.order-card {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 1.5rem 2.5rem;
+    border: 3px solid var(--text-main);
+    box-shadow: 8px 8px 0 var(--text-main);
+    margin-bottom: 2.5rem;
+}
+
+.order-header {
+    border-bottom: 2px dashed var(--brand-purple);
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap; /* Para responsiveness */
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.order-header-info p {
+    margin: 0;
+    font-weight: 500;
+    color: #333;
+}
+.order-header-info p span {
+    font-weight: 700;
+    color: var(--brand-purple);
+}
+
+.order-header-total {
+    font-family: var(--font-headings);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+
+.order-body-title {
+    font-family: var(--font-headings);
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--brand-purple);
+    margin-bottom: 1rem;
+}
+
+/* Reutilizamos estilos del carrito */
+.order-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order-item-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--text-main);
+}
+
+.order-item-info {
+    flex-grow: 1;
+}
+
+.order-item-name {
+    font-weight: 700;
+    margin: 0;
+}
+
+.order-item-details {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+}

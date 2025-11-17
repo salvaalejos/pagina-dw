@@ -1,10 +1,12 @@
 from flask_login import UserMixin
 
 class User(UserMixin):
-    def __init__(self, id, name, username, id_branch, rol, password) -> None:
+    # CAMBIO: 'username' ahora es 'usuario'
+    def __init__(self, id, name, email, usuario, id_branch, rol, password) -> None:
         self.id = id
         self.name = name
-        self.username = username
+        self.email = email
+        self.usuario = usuario  # <-- CORREGIDO
         self.id_branch = id_branch
         self.rol = rol
         self.password = password

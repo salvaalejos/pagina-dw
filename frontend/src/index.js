@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App'; // React encontrará App.jsx o App.jsx automáticamente
+import App from './App';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext'; // <-- 1. IMPORTAR
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <AuthProvider>
+        <CartProvider> {/* <-- 2. ENVOLVER LA APP */}
+          <App />
+        </CartProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

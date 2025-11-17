@@ -1,19 +1,18 @@
- :root {
-            --bg-main: #FFEBB4;      /* Crema claro del fondo */
-            --text-main: #3D2C24;    /* Café oscuro para el texto */
-            --brand-purple: #613B84; /* Morado de la navegación y logo */
-            --brand-green-dark: #93D501; /* Verde oscuro del logo y header */
-            --brand-green-light: #93D501;; /* Verde claro del header */
-            
-            /* Tipografías para replicar el estilo amigable */
+:root {
+            --bg-main: #FFEBB4;
+            --text-main: #3D2C24;
+            --brand-purple: #613B84;
+            --brand-green-dark: #93D501;
+            --brand-green-light: #93D501;
             --font-headings: 'Nunito', sans-serif;
             --font-body: 'Poppins', sans-serif;
         }
 
-
         html {
             scroll-behavior: smooth;
-            scroll-padding-top: 110px; /* 🔹 Ajusta este valor según la altura de tu header */
+            scroll-padding-top: 110px;
+            overflow-y: scroll;        /* permite desplazamiento */
+            scrollbar-width: none;
         }
 
         body {
@@ -22,221 +21,274 @@
             color: var(--text-main);
             line-height: 1.7;
             font-size: 16px;
-            padding-top: 90px; 
-             display: flex;
+            display: flex;
             flex-direction: column;
             min-height: 100vh;
-              overflow-x: hidden; /* 🔹 Oculta cualquier desplazamiento horizontal */
+            overflow-x: hidden;
         }
 
+        body::-webkit-scrollbar {
+            display: none;
+        }
+        body {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Contenedor principal (centrado) */
         .container {
             width: 90%;
-            max-width: 960px; 
+            max-width: 960px;
             margin: 0 auto;
         }
 
         /* --- 3. HEADER / NAVEGACIÓN --- */
-        /* DESPUÉS */
 .main-header {
-    /* Propiedades para hacerlo fijo */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000; /* Asegura que esté por encima de todo */
-
-    /* Estilos que ya tenía */
+    z-index: 1000;
     background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
     padding: 0.5rem 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-        /* DESPUÉS */
+/* 1. ARREGLO BOTONES CORTADOS/AMONTONADOS
+   Hacemos que el contenedor del header ocupe el 100% del ancho
+   y le añadimos padding a los lados.
+*/
 .main-header .container {
-    width: 100%; 
-    max-width: none;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    
-    /* Cambiamos flex por grid */
+    width: 100%;
+    max-width: none; /* Anula el max-width de 960px */
+    padding-left: 2rem;  /* Margen izquierdo para el logo */
+    padding-right: 2rem; /* Margen derecho para los botones de auth */
+    box-sizing: border-box; /* Asegura que el padding no rompa el ancho */
+
     display: grid;
-    /* Creamos 3 columnas: 
-       1fr (espacio flexible), auto (lo que ocupe la nav), 1fr (espacio flexible) */
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 1fr auto; /* Logo | Nav (expansible) | Auth */
+    gap: 2rem;
     align-items: center;
 }
 
         .logo img {
-             height: 100px; /* <-- Ajusta esta altura según el tamaño que prefieras */
-             width: auto;  /* Mantiene la proporción correcta de la imagen */
-             display: block; /* Ayuda a evitar espacios extra indeseados */
+             height: 100px;
+             width: auto;
+             display: block;
         }
-
-
+.main-nav {
+    text-align: center; /* Centra "Inicio", "Menú", etc. */
+}
 .main-nav a {
     font-family: var(--font-headings);
-    color: white; /* <-- 1. Color de letra blanco */
+    color: white;
     text-decoration: none;
     margin: 0 1.25rem;
-    font-weight: 800; /* Un poco más grueso para que se vea mejor */
-    font-size: 2rem; /* <-- 2. Letras más grandes */
-    
-    /* -- 3. El borde morado -- */
+    font-weight: 800;
+    font-size: 2rem;
     -webkit-text-stroke: 2px var(--brand-purple);
-
-    transition: all 0.2s ease; /* Transición más suave */
+    transition: all 0.2s ease;
 }
-
-/* Nuevo efecto al pasar el mouse */
 .main-nav a:hover {
     color: var(--brand-purple);
-    -webkit-text-stroke: 0; /* Quitamos el borde para un efecto "relleno" */
+    -webkit-text-stroke: 0;
 }
+
+/* 2. ARREGLO BOTONES AMONTONADOS
+   Añadimos 'justify-content' para alinear los botones
+   a la derecha de su celda en la grilla.
+*/
+.auth-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    justify-content: flex-end; /* Alinear a la derecha */
+}
+
+.auth-nav .auth-link {
+    font-family: var(--font-headings);
+    color: white;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.2s ease;
+}
+.auth-nav .auth-link:hover {
+    color: var(--brand-purple);
+}
+.auth-nav .auth-link.register {
+    background-color: var(--brand-purple);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+}
+.auth-nav .auth-link.register:hover {
+    color: white;
+    transform: scale(1.05);
+}
+.auth-nav .auth-link.logout {
+    color: #ffc107;
+    font-weight: 700;
+}
+
+
         /* --- 4. CONTENIDO PRINCIPAL --- */
+
+        body.cart-is-open main,
+        body.cart-is-open footer {
+            padding-right: 380px;
+            transition: padding-right 0.3s ease-in-out;
+        }
+        main, footer {
+            padding-right: 0;
+            transition: padding-right 0.3s ease-in-out;
+        }
+
         main {
             padding: 4rem 0;
             padding-top: 120px;
-    padding-bottom: 4rem;
-
+            padding-bottom: 4rem;
         }
 
+        body.cart-is-open .floating-cart-btn {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+/* ... (El resto del archivo .css se mantiene igual) ... */
         .content-section {
             display: flex;
             align-items: center;
-            gap: 3rem; /* Espacio entre imagen y texto */
+            gap: 3rem;
             margin-bottom: 5rem;
         }
-        
         .content-section .image-container {
-            flex-shrink: 0; /* Evita que la imagen se encoja */
+            flex-shrink: 0;
             width: 200px;
         }
-        
         .content-section img {
             max-width: 100%;
             height: auto;
         }
-
-        /* Estilo para los títulos de sección (Misión, Visión, etc.) */
         .section-title {
             font-family: var(--font-headings);
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             position: relative;
-            display: inline-block; /* Para que el borde se ajuste al texto */
+            display: inline-block;
         }
-        
-        /* El subrayado característico */
         .section-title::after {
             content: '';
             position: absolute;
             bottom: -5px;
             left: 0;
-            width: 80%; /* Ancho del subrayado */
-            height: 4px; /* Grosor del subrayado */
+            width: 80%;
+            height: 4px;
             background-color: var(--text-main);
         }
-        
         .text-content p {
             font-size: 1rem;
         }
-
-
-        /* --- 5. ESTILOS PARA SECCIONES ADICIONALES --- */
-
-/* Estilo para las tarjetas de Menú y Contacto */
-.card {
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 2.5rem;
-    border: 3px solid var(--text-main);
-    box-shadow: 8px 8px 0 var(--text-main);
-    margin-bottom: 3rem;
-}
-
-/* Estilos para el formulario */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-family: var(--font-headings);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.form-input,
-.form-select,
-.form-textarea {
-    width: 100%;
-    padding: 0.8rem 1rem;
-    border: 2px solid var(--text-main);
-    border-radius: 10px;
-    font-family: var(--font-body);
-    font-size: 1rem;
-    background-color: var(--bg-main);
-    transition: all 0.2s ease;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-    outline: none;
-    border-color: var(--brand-purple);
-    box-shadow: 0 0 0 3px rgba(106, 76, 156, 0.3);
-}
-
-/* Botón principal */
-.btn {
-    display: inline-block;
-    padding: 0.8rem 2.5rem;
-    border-radius: 50px;
-    text-decoration: none;
-    font-family: var(--font-headings);
-    font-weight: 700;
-    font-size: 1.2rem;
-    border: 3px solid var(--text-main);
-    box-shadow: 4px 4px 0 var(--text-main);
-    transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.btn-primary {
-    background-color: var(--brand-purple);
-    color: white;
-}
-
-.btn:hover {
-    transform: translateY(-2px) translateX(-2px);
-    box-shadow: 6px 6px 0 var(--text-main);
-}
-.btn:active {
-    transform: translateY(2px) translateX(2px);
-    box-shadow: 2px 2px 0 var(--text-main);
-}
-
-/* --- 6. FOOTER --- */
+        .card {
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 3px solid var(--text-main);
+            box-shadow: 8px 8px 0 var(--text-main);
+            margin-bottom: 3rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            font-family: var(--font-headings);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--text-main);
+            border-radius: 10px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            background-color: var(--bg-main);
+            transition: all 0.2s ease;
+        }
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--brand-purple);
+            box-shadow: 0 0 0 3px rgba(106, 76, 156, 0.3);
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-family: var(--font-headings);
+            font-weight: 700;
+            font-size: 1.2rem;
+            border: 3px solid var(--text-main);
+            box-shadow: 4px 4px 0 var(--text-main);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: var(--brand-purple);
+            color: white;
+        }
+        .btn:hover {
+            transform: translateY(-2px) translateX(-2px);
+            box-shadow: 6px 6px 0 var(--text-main);
+        }
+        .btn:active {
+            transform: translateY(2px) translateX(2px);
+            box-shadow: 2px 2px 0 var(--text-main);
+        }
+        .btn-sm {
+            padding: 0.5rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-width: 2px;
+            box-shadow: 3px 3px 0 var(--text-main);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-sm:hover {
+            transform: translateY(-2px) translateX(-2px);
+            box-shadow: 5px 5px 0 var(--text-main);
+        }
+        .btn-sm:active {
+            transform: translateY(1px) translateX(1px);
+            box-shadow: 2px 2px 0 var(--text-main);
+        }
+        .btn-sm > i {
+            width: 16px;
+            height: 16px;
+        }
 .main-footer {
     position: relative;
-    width: 100vw; 
+    width: 100vw;
     left: 50%;
     right: 50%;
-    margin-left: -50vw; 
+    margin-left: -50vw;
     margin-right: -50vw;
-
     background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
     padding: 2rem 0;
     text-align: center;
     border-top: 4px solid var(--text-main);
-
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-
 .main-footer .logo-footer {
     font-family: var(--font-headings);
     font-size: 1.8rem;
@@ -244,26 +296,71 @@
     color: var(--brand-purple);
     margin-bottom: 0.5rem;
 }
-
 .main-footer p {
     color: var(--brand-purple);
     font-weight: 500;
 }
-
-/* --- 7. CARRITO --- */
-.cart-header {
-    background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
-    padding: 1rem 1.5rem;
-    border-bottom: 4px solid var(--text-main);
+#menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 320px);
+    gap: 2.5rem;
+    justify-content: center;
 }
-.cart-header h3 {
-    font-family: var(--font-headings);
-    color: white;
-    -webkit-text-stroke: 2px var(--brand-purple);
-    font-size: 1.8rem;
+.product-card {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 3px solid var(--text-main);
+    box-shadow: 8px 8px 0 var(--text-main);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
 }
-.cart-footer {
+.product-card:hover {
+    transform: translateY(-4px) translateX(-4px);
+    box-shadow: 12px 12px 0 var(--brand-purple);
+}
+.product-card-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-bottom: 3px solid var(--text-main);
+}
+.product-card-body {
     padding: 1.5rem;
-    background-color: var(--bg-main);
-    border-top: 2px solid #eee;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.product-card-title {
+    font-family: var(--font-headings);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--brand-purple);
+    margin-bottom: 0.5rem;
+}
+.product-card-desc {
+    font-size: 0.9rem;
+    color: #6b7280;
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+}
+.product-card-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    border-top: 2px dashed #eee;
+    padding-top: 1rem;
+}
+.product-card-price {
+    font-family: var(--font-headings);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-main);
+}
+.product-card-footer .btn-sm {
+    width: 100%;
+    justify-content: center;
 }

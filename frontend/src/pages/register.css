@@ -1,93 +1,96 @@
-.login-card {
+/* 1. Tarjeta principal: Ancho y espacios reducidos para hacerlo compacto */
+.register-card {
     background-color: #fff;
     border: 3px solid var(--text-main);
     box-shadow: 8px 8px 0 var(--text-main);
     border-radius: 20px;
-    padding: 3rem;
-    max-width: 450px;
+
+    /* 1. AJUSTE: Padding reducido */
+    padding: 1.5rem;
+
+    /* 2. AJUSTE: Ancho máximo compacto */
+    max-width: 480px;
+
     width: 90%;
-    margin: 5rem auto;
+    /* 3. AJUSTE: Margen superior reducido */
+    margin: 3rem auto;
+
     text-align: center;
 }
 
-.login-logo img {
-    max-width: 250px;
-    margin-bottom: 1.5rem;
+/* 4. Estilos de encabezado (reutilizados) */
+.register-card .login-logo img {
+    max-width: 200px;
+    margin-bottom: 1rem;
 }
 
-.login-title {
+.register-card .login-title {
     font-family: var(--font-headings);
-    font-size: 2rem;
+    font-size: 1.6rem; /* Título más pequeño */
     color: var(--brand-purple);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
 }
 
-.login-subtitle {
-    font-size: 1rem;
+.register-card .login-subtitle {
+    font-size: 0.9rem;
     color: #6b7280;
-    margin-bottom: 2.5rem;
+    margin-bottom: 1.5rem; /* Margen reducido */
 }
 
 .form-group {
-    position: relative; /* Contenedor para el icono absoluto */
-    margin-bottom: 1.5rem;
+    position: relative;
+    margin-bottom: 1rem; /* Espacio vertical reducido */
     text-align: left;
 }
 
-/* Estilo para los iconos de lucide-react */
+/* 5. Estilo para el icono (de lucide-react) */
 .form-icon {
     position: absolute;
-    left: 1rem;
+    left: 0.8rem; /* Ajuste para el nuevo padding del input */
     top: 50%;
     transform: translateY(-50%);
     color: var(--text-main);
     opacity: 0.6;
-    /* Ya no se necesita z-index */
 }
 
-/* Estilo para el input */
+/* 6. Estilo para el input (CON PADDING REDUCIDO) */
 .form-input {
     width: 100%;
-    padding: 1rem;
+    padding: 0.7rem; /* Padding más pequeño */
 
-    /* ESTA ES LA REGLA CLAVE: */
-    /* Añade espacio a la izquierda para el icono */
-    padding-left: 3.5rem;
+    /* Mantenemos el padding-left para el icono */
+    padding-left: 3.0rem;
 
     border: 2px solid var(--text-main);
     border-radius: 10px;
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 0.9rem; /* Fuente más pequeña */
     background-color: var(--bg-main);
     transition: all 0.2s ease;
     box-sizing: border-box;
-
-    /* Ya no se necesita z-index ni position relative */
 }
 
-/* El placeholder respetará el padding-left del input */
 .form-input::placeholder {
-    color: #6b7280; /* Color estándar para placeholder */
+    color: #6b7280;
     opacity: 1;
 }
-
 
 .form-input:focus {
     outline: none;
     border-color: var(--brand-purple);
     box-shadow: 0 0 0 3px rgba(106, 76, 156, 0.3);
-    background-color: var(--bg-main); /* Mantenemos el fondo */
+    background-color: var(--bg-main);
 }
 
-/* ... (El resto del CSS no cambia) ... */
+/* 7. Estilos de botón (Ajustados al nuevo tamaño) */
 .btn {
     display: inline-block;
-    padding: 0.8rem 2.5rem;
+    padding: 0.6rem 1.5rem; /* Padding más pequeño */
     border-radius: 50px;
     text-decoration: none;
     font-family: var(--font-headings);
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1rem; /* Fuente más pequeña */
     border: 3px solid var(--text-main);
     box-shadow: 4px 4px 0 var(--text-main);
     transition: all 0.2s ease;
@@ -110,29 +113,13 @@
 }
 
 .flash-message {
-    padding: 1rem;
+    padding: 0.8rem;
     border-radius: 10px;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     font-weight: 500;
 }
 .flash-message.error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
-}
-
-.form-group {
-  position: relative;
-}
-
-.form-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-.form-input {
-  padding-left: 45px !important; /* <-- evita que el texto caiga debajo del icono */
 }
