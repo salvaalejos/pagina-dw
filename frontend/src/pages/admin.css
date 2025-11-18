@@ -35,7 +35,7 @@ body {
 
 /* --- 4. SIDEBAR --- */
 .sidebar {
-    width: 380px;
+    width: 300px;
     height: 100vh;
     background-color: var(--sidebar-bg);
     padding: 0.5rem 1.7rem;
@@ -69,7 +69,7 @@ body {
 .sidebar-nav-category {
     font-family: var(--font-headings);
     font-weight: 700;
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--brand-green-light);
     margin-top: 1.5rem;
     margin-bottom: 0.8rem;
@@ -85,7 +85,7 @@ body {
     color: var(--sidebar-text);
     text-decoration: none;
     font-weight: 500; 
-    font-size: 1.7rem;
+    font-size: 1.4rem;
     border-radius: 8px;
     transition: all 0.2s ease;
 }

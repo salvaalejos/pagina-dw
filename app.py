@@ -26,7 +26,7 @@ from models.ModelOrder import ModelOrder
 # 2. Configuración de la App (Sin cambios)
 # -----------------------------------------------------------------
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "https://localhost:3000"}})
 
 app.config.from_object(config['development'])
 csrf = CSRFProtect()
@@ -517,4 +517,11 @@ app.register_error_handler(404, status_404_json)
 # 13. Arranque de la App (Sin cambios)
 # -----------------------------------------------------------------
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True,
+        ssl_context=("frontend/certs/cert.pem", "frontend/certs/key.pem")
+    )
+
+
