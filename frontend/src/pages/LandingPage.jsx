@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import './bubbles.css';
-import axios from '../api/axiosConfig'; // Ajusta la ruta (../) si es necesario
+import axios from '../api/axiosConfig';
+import { useCart } from '../context/CartContext';
 
-// Importamos los componentes que forman esta página
 import Header from '../components/Header';
-import MenuSection from '../components/MenuSection'; // Componente de Menú (NUEVO)
-import ContactForm from '../components/ContactForm'; // Formulario de contacto actualizado
+import MenuSection from '../components/MenuSection';
+import ContactForm from '../components/ContactForm';
+import Cart from '../components/Cart';
+import FloatingCartButton from '../components/FloatingCartButton';
 
 function LandingPage() {
-
-    // --- Estado para guardar los datos de la API ---
     const [branches, setBranches] = useState([]);
     const [products, setProducts] = useState([]);
+    const { isOpen: isCartOpen } = useCart();
 
-    // --- useEffect para buscar los datos al cargar la página ---
+    // Cargar datos de la API (sin cambios)
     useEffect(() => {
         const fetchData = () => {
-            const fetchProducts = axios.get('http://localhost:5000/api/products');
-            const fetchBranches = axios.get('http://localhost:5000/api/branches');
+            const fetchProducts = axios.get('/products');
+            const fetchBranches = axios.get('/branches');
 
             Promise.all([fetchProducts, fetchBranches])
                 .then(([productsRes, branchesRes]) => {
@@ -26,22 +27,33 @@ function LandingPage() {
                 })
                 .catch(error => console.error("Error fetching landing page data:", error));
         };
-
         fetchData();
-    }, []); // El `[]` asegura que se ejecute solo una vez al cargar
+    }, []);
 
-    // --- Efecto para Lucide icons ---
+    // Efecto para modificar el <body> (sin cambios)
     useEffect(() => {
-        if (window.lucide) {
-            window.lucide.createIcons();
+        if (isCartOpen) {
+            document.body.classList.add('cart-is-open');
+        } else {
+            document.body.classList.remove('cart-is-open');
         }
-    }); // Se ejecuta en cada render para refrescar iconos
+        return () => {
+            document.body.classList.remove('cart-is-open');
+        };
+    }, [isCartOpen]);
+
+    // CORRECCIÓN: Eliminamos el useEffect que llamaba a lucide.createIcons()
+    // Lo manejaremos dentro de cada componente que lo necesite.
 
     return (
         <>
             <Header />
-<body id="inicio"></body>
-            <main>
+            <Cart />
+            <FloatingCartButton />
+
+            {/* CORRECCIÓN: Eliminamos el 'div' wrapper y el tag <body> inválido */}
+
+            <main id="inicio">
                 <div className="container">
                     {/* --- Secciones Estáticas (Misión, Visión, etc.) --- */}
                     <section className="content-section">
@@ -55,7 +67,7 @@ function LandingPage() {
                             </p>
                         </div>
                     </section>
-
+                    {/* ... (resto de las secciones 'vision' e 'historia' van aquí igual) ... */}
                     <section className="content-section">
                         <div className="image-container">
                             <img src="/images/vision-mascota.png" alt="Mascota de Pop Bubbles" />
@@ -79,26 +91,21 @@ function LandingPage() {
                                 <br/><br/>
                                 Contamos con una amplia variedad de sabores que dan más de un millón de combinaciones, somos únicos y naturales nuestras pulpas son preparadas con la más sabrosa pulpa natural así cada sorbo es una explosión de frescura Y que lo convierten en una experiencia única, divertida y original Además que ofrecemos opciones de personalización tan únicas como tú lo puedas querer y hacer posible.
                                 Atrevete a probar cada sabor y combinación existente en bubbles y descubre por qué es mucho más que una bebida, cada vez que lo pruebes descubrirás una experiencia refres- cante que estimulará tus sentidos y se grabará en tu memoria!!!
-                    </p>
+                            </p>
                         </div>
                     </section>
                 </div>
             </main>
 
-            {/* --- Sección Dinámica del Menú ---
-              Pasamos los productos y sucursales que cargamos de la API
-            */}
             <MenuSection products={products} branches={branches} />
-
-            {/* --- Formulario de Contacto (ya conectado) --- */}
             <ContactForm />
 
-            <footer class="main-footer">
-        <div class="container">
-            <div class="logo-footer">Pop Bubbles</div>
-            <p>© 2024 Todos los derechos reservados.</p>
-        </div>
-    </footer>
+            <footer className="main-footer">
+                <div className="container">
+                    <div className="logo-footer">Pop Bubbles</div>
+                    <p>© 2024 Todos los derechos reservados.</p>
+                </div>
+            </footer>
         </>
     );
 }

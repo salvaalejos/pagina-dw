@@ -1,101 +1,229 @@
 # -----------------------------------------------------------------
-# 1. Imports: Añadimos CORS y quitamos lo que ya no se usa
+# 1. Imports: Añadimos 'current_user' y 'wraps'
 # -----------------------------------------------------------------
-from werkzeug.utils import secure_filename
-from flask import Flask, request, jsonify  # Quitamos render_template, redirect, url_for, g, flash
+from functools import wraps  # <-- NUEVO: Para crear decoradores
+from flask import Flask, request, jsonify
 from flask_mysqldb import MySQL
 from flask_wtf.csrf import CSRFProtect
-from flask_login import LoginManager, login_user, logout_user, login_required
-from flask_cors import CORS  # Importamos CORS
+# 'current_user' nos dice quién está logueado
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask_cors import CORS
 from config import config
-from jinja2.ext import loopcontrols
 
-# Imports de Modelos (sin cambios)
+# Imports de Modelos
 from models.Entities.Comment import Comment
 from models.Entities.Drink import Drink
-from models.Entities.ModelUser import ModelUser
+from models.ModelUser import ModelUser
 from models.Entities.Sucursal import Sucursal
 from models.Entities.User import User
 from models.ModelComment import ModelComment
 from models.ModelDrink import ModelDrink
-import datetime
 from models.ModelSucursal import ModelSucursal
+# Importamos el nuevo modelo de pedidos
+from models.ModelOrder import ModelOrder
 
 # -----------------------------------------------------------------
-# 2. Configuración de la App: Añadimos CORS
+# 2. Configuración de la App (Sin cambios)
 # -----------------------------------------------------------------
 app = Flask(__name__)
-# Reemplaza la línea simple de CORS con esta:
-CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:3001"}})
+CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "https://localhost:3000"}})
 
-app.jinja_env.add_extension(loopcontrols)
 app.config.from_object(config['development'])
 csrf = CSRFProtect()
-csrf.init_app(app)  # Mantenemos CSRF por si flask-login lo necesita, pero eximiremos las rutas
+csrf.init_app(app)
 db = MySQL(app)
 login_manager_app = LoginManager(app)
 
 
 # -----------------------------------------------------------------
-# 3. Autenticación (Auth) API Endpoints
+# 3. NUEVO: Decoradores de Roles
+# -----------------------------------------------------------------
+def admin_required(f):
+    @wraps(f)
+    @login_required  # Primero revisa que esté logueado
+    def decorated_function(*args, **kwargs):
+        # Si el rol del usuario actual NO es 'admin'
+        if current_user.rol != 'admin':
+            return jsonify({"message": "Acceso denegado. Se requiere rol de Admin."}), 403
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+def sucursal_required(f):
+    @wraps(f)
+    @login_required
+    def decorated_function(*args, **kwargs):
+        # Si el rol NO es 'sucursal'
+        if current_user.rol != 'sucursal':
+            return jsonify({"message": "Acceso denegado. Se requiere rol de Sucursal."}), 403
+        # También nos aseguramos que TENGA una sucursal asignada
+        if current_user.id_branch is None:
+            return jsonify({"message": "Usuario de sucursal no tiene sucursal asignada."}), 403
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+# -----------------------------------------------------------------
+# 4. Endpoints de Autenticación (Auth)
 # -----------------------------------------------------------------
 
 @app.route('/api/login', methods=['POST'])
-@csrf.exempt  # Eximimos la ruta de la protección CSRF
+@csrf.exempt
 def login():
     data = request.get_json()
     if not data:
         return jsonify({"message": "No se enviaron datos"}), 400
 
-    username = data.get('username')
+    username = data.get('username')  # <-- El JSON del frontend dice 'username'
     password = data.get('password')
 
-    # Usamos la entidad User para pasar los datos al modelo
-    user_entity = User(0, 0, username, 0, 'admin', password)
+    # CORREGIDO: Mapeamos 'username' del JSON al parámetro 'usuario' de la Entidad
+    user_entity = User(0, 0, None, usuario=username, id_branch=0, rol='admin', password=password)
+
     logged_user = ModelUser.login(db, user_entity)
 
     if logged_user is not None:
-        login_user(logged_user)  # Flask-Login crea la sesión
-        # Devolvemos los datos del usuario como JSON
+        login_user(logged_user)
         return jsonify({
             "id": logged_user.id,
             "name": logged_user.name,
-            "username": logged_user.username,
-            "rol": logged_user.rol
+            # CORREGIDO: Mapeamos de vuelta. El JSON usa 'username', la entidad 'usuario'
+            "username": logged_user.usuario,
+            "rol": logged_user.rol,
+            "id_branch": logged_user.id_branch
         }), 200
     else:
         return jsonify({'message': 'Usuario o contraseña incorrectos'}), 401
 
-
 @app.route('/api/logout', methods=['POST'])
 @csrf.exempt
-@login_required
+@login_required  # Solo alguien logueado puede desloguearse
 def logout():
     logout_user()
     return jsonify({"message": "Sesión cerrada exitosamente"}), 200
 
 
-# Esta función es esencial para que flask-login funcione
 @login_manager_app.user_loader
 def load_user(id_user):
+    # ModelUser.getById ahora incluye el email
     return ModelUser.getById(db, id_user)
 
 
 # -----------------------------------------------------------------
-# 4. Productos (Drinks) API Endpoints
+# 5. NUEVO: Endpoints de Registro (para Clientes)
+# -----------------------------------------------------------------
+
+@app.route('/api/register', methods=['POST'])
+@csrf.exempt
+def register_user():
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No se enviaron datos"}), 400
+
+    try:
+        # CORREGIDO: Mapeamos 'username' del JSON al parámetro 'usuario' de la Entidad
+        new_user = User(
+            id=0,
+            name=data['name'],
+            email=data['email'],
+            usuario=data['username'],  # <-- CORREGIDO
+            id_branch=None,
+            rol='cliente',
+            password=data['password']
+        )
+
+        ModelUser.create_user(db, new_user)
+
+        return jsonify({'message': '¡Usuario cliente creado con éxito!'}), 201
+    except Exception as ex:
+        if '1062' in str(ex):
+            return jsonify({'message': 'Error: El email o usuario ya existe.', 'error': str(ex)}), 409
+        return jsonify({'message': 'Error en el servidor', 'error': str(ex)}), 500
+
+# -----------------------------------------------------------------
+# 6. NUEVO: Endpoints de Gestión de Usuarios (SOLO ADMIN)
+# -----------------------------------------------------------------
+
+@app.route('/api/users', methods=['GET'])
+@csrf.exempt
+@admin_required  # <-- ¡Protegido!
+def get_users():
+    try:
+        users = ModelUser.get_all_users(db)
+        return jsonify(users), 200
+    except Exception as ex:
+        return jsonify({'message': 'Error al obtener usuarios', 'error': str(ex)}), 500
+
+
+@app.route('/api/users', methods=['POST'])
+@csrf.exempt
+@admin_required
+def create_user_by_admin():
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No se enviaron datos"}), 400
+
+    try:
+        rol = data.get('rol')
+        id_branch = data.get('id_branch', None)
+
+        if rol == 'sucursal' and id_branch is None:
+            return jsonify({"message": "Se debe proveer un 'id_branch' para el rol 'sucursal'"}), 400
+
+        if rol != 'sucursal':
+            id_branch = None
+
+        # CORREGIDO: Mapeamos 'username' del JSON al parámetro 'usuario' de la Entidad
+        new_user = User(
+            id=0,
+            name=data['name'],
+            email=data.get('email', None),
+            usuario=data['username'],  # <-- CORREGIDO
+            id_branch=id_branch,
+            rol=rol,
+            password=data['password']
+        )
+
+        ModelUser.create_user(db, new_user)
+        return jsonify({'message': f'Usuario {rol} creado con éxito'}), 201
+
+    except Exception as ex:
+        if '1062' in str(ex):
+            return jsonify({'message': 'Error: El email o usuario ya existe.', 'error': str(ex)}), 409
+        return jsonify({'message': 'Error en el servidor', 'error': str(ex)}), 500
+
+@app.route('/api/users/<int:id>', methods=['DELETE'])
+@csrf.exempt
+@admin_required  # <-- ¡Protegido!
+def delete_user(id):
+    try:
+        # Evitar que el admin se borre a sí mismo (opcional pero buena idea)
+        if id == current_user.id:
+            return jsonify({'message': 'No puedes eliminar tu propia cuenta de administrador'}), 403
+
+        ModelUser.delete_user(db, id)
+        return jsonify({'message': 'Usuario eliminado correctamente'}), 200
+    except Exception as ex:
+        return jsonify({'message': 'Error al eliminar el usuario', 'error': str(ex)}), 500
+
+
+# -----------------------------------------------------------------
+# 7. Endpoints de Gestión de Bebidas (SOLO ADMIN)
 # -----------------------------------------------------------------
 
 @app.route('/api/products', methods=['GET'])
 def get_products():
+    # Esta ruta sigue siendo pública, para que los clientes vean el menú
     try:
         drinks_tuples = ModelDrink.getDrinks(db)
         drinks_list = []
-        # Convertimos las tuplas de la BD a una lista de diccionarios
         for drink in drinks_tuples:
             drinks_list.append({
                 "id": drink[0],
                 "nombre": drink[1],
-                "precio": float(drink[2]),  # Aseguramos que el precio sea un número
+                "precio": float(drink[2]),
                 "descripcion": drink[3],
                 "imagen": drink[4],
                 "id_sucursal": drink[5]
@@ -107,20 +235,19 @@ def get_products():
 
 @app.route('/api/products', methods=['POST'])
 @csrf.exempt
-@login_required
+@admin_required  # <-- ¡Protegido!
 def add_product():
     data = request.get_json()
     if not data:
         return jsonify({"message": "No se enviaron datos"}), 400
 
     try:
-        # Extraemos datos del JSON
         new_drink = Drink(0,
                           data['product_name'],
                           data['product_price'],
                           data['product_description'],
                           data['product_image'],
-                          data['product_sucursal'])
+                          data['product_sucursal'])  # El admin elige la sucursal
 
         insert = ModelDrink.newDrink(db, new_drink)
         if insert:
@@ -133,7 +260,7 @@ def add_product():
 
 @app.route('/api/products/<int:id>', methods=['DELETE'])
 @csrf.exempt
-@login_required
+@admin_required  # <-- ¡Protegido!
 def delete_products(id):
     try:
         ModelDrink.deleteDrink(db, id)
@@ -143,15 +270,15 @@ def delete_products(id):
 
 
 # -----------------------------------------------------------------
-# 5. Sucursales (Branches) API Endpoints
+# 8. Endpoints de Gestión de Sucursales (SOLO ADMIN)
 # -----------------------------------------------------------------
 
 @app.route('/api/branches', methods=['GET'])
 def get_branches():
+    # Esta ruta es pública, clientes y admins la necesitan
     try:
         sucursales_tuples = ModelSucursal.getSucursales(db)
         sucursales_list = []
-        # Convertimos las tuplas de la BD a una lista de diccionarios
         for suc in sucursales_tuples:
             sucursales_list.append({
                 "id": suc[0],
@@ -166,7 +293,7 @@ def get_branches():
 
 @app.route('/api/branches', methods=['POST'])
 @csrf.exempt
-@login_required
+@admin_required  # <-- ¡Protegido!
 def add_branch():
     data = request.get_json()
     if not data:
@@ -189,7 +316,7 @@ def add_branch():
 
 @app.route('/api/branches/<int:id>', methods=['DELETE'])
 @csrf.exempt
-@login_required
+@admin_required  # <-- ¡Protegido!
 def delete_branch(id):
     try:
         ModelSucursal.deleteSucursal(db, id)
@@ -199,12 +326,95 @@ def delete_branch(id):
 
 
 # -----------------------------------------------------------------
-# 6. Comentarios (Comments) API Endpoints
+# 9. NUEVO: Endpoints de Gestión (SOLO SUCURSAL)
 # -----------------------------------------------------------------
 
+@app.route('/api/sucursal/products', methods=['GET'])
+@csrf.exempt
+@sucursal_required  # <-- ¡Protegido!
+def get_sucursal_products():
+    """ Obtiene solo los productos de la sucursal del usuario logueado. """
+    try:
+        # Obtenemos el id_branch del usuario que hace la petición
+        sucursal_id = current_user.id_branch
+
+        # Necesitamos una nueva función en ModelDrink
+        # (La crearemos en el siguiente paso)
+        drinks_tuples = ModelDrink.getDrinksBySucursal(db, sucursal_id)
+
+        drinks_list = []
+        for drink in drinks_tuples:
+            drinks_list.append({
+                "id": drink[0],
+                "nombre": drink[1],
+                "precio": float(drink[2]),
+                "descripcion": drink[3],
+                "imagen": drink[4],
+                "id_sucursal": drink[5]
+            })
+        return jsonify(drinks_list), 200
+    except Exception as ex:
+        return jsonify({'message': 'Error al obtener productos de la sucursal', 'error': str(ex)}), 500
+
+
+@app.route('/api/sucursal/products', methods=['POST'])
+@csrf.exempt
+@sucursal_required  # <-- ¡Protegido!
+def add_sucursal_product():
+    """ Agrega un producto a la sucursal del usuario logueado. """
+    data = request.get_json()
+    if not data:
+        return jsonify({"message": "No se enviaron datos"}), 400
+
+    try:
+        # Forzamos que el id_sucursal sea el de la sesión, ignorando lo que venga del frontend
+        sucursal_id = current_user.id_branch
+
+        new_drink = Drink(0,
+                          data['product_name'],
+                          data['product_price'],
+                          data['product_description'],
+                          data['product_image'],
+                          sucursal_id)  # <-- ID de sucursal forzado
+
+        insert = ModelDrink.newDrink(db, new_drink)
+        if insert:
+            return jsonify({'message': 'Producto agregado a tu sucursal'}), 201
+        else:
+            return jsonify({'message': 'Error al agregar el producto'}), 500
+    except Exception as ex:
+        return jsonify({'message': 'Error en el servidor', 'error': str(ex)}), 500
+
+
+@app.route('/api/sucursal/products/<int:id>', methods=['DELETE'])
+@csrf.exempt
+@sucursal_required  # <-- ¡Protegido!
+def delete_sucursal_product(id):
+    """ Borra un producto SÓLO SI pertenece a la sucursal del usuario. """
+    try:
+        sucursal_id = current_user.id_branch
+
+        # Necesitamos una función que verifique la pertenencia
+        # (La crearemos en el siguiente paso)
+        producto_es_de_sucursal = ModelDrink.checkDrinkOwnership(db, id, sucursal_id)
+
+        if not producto_es_de_sucursal:
+            return jsonify({'message': 'No tienes permiso para borrar este producto'}), 403
+
+        # Si es suyo, lo borra
+        ModelDrink.deleteDrink(db, id)
+        return jsonify({'message': 'Producto eliminado correctamente'}), 200
+    except Exception as ex:
+        return jsonify({'message': 'Error al eliminar el producto', 'error': str(ex)}), 500
+
+
+# -----------------------------------------------------------------
+# 10. Endpoints de Comentarios (Público)
+# -----------------------------------------------------------------
 @app.route('/api/comments', methods=['POST'])
 @csrf.exempt
 def add_comments():
+    # ... (Esta sección no cambia, es pública)
     data = request.get_json()
     if not data:
         return jsonify({"message": "No se enviaron datos"}), 400
@@ -225,24 +435,73 @@ def add_comments():
 
 
 # -----------------------------------------------------------------
-# 7. Rutas y Handlers Genéricos
+# 11. NUEVO: Endpoints de Pedidos (SOLO CLIENTE)
+# -----------------------------------------------------------------
+
+@app.route('/api/my-orders', methods=['GET'])
+@csrf.exempt
+@login_required  # <-- ¡Protegido! (Cualquier usuario logueado puede tener pedidos)
+def get_my_orders():
+    """ Obtiene el historial de pedidos del cliente logueado. """
+    try:
+        if current_user.rol != 'cliente':
+            return jsonify({"message": "Acceso denegado. Solo para clientes."}), 403
+
+        user_id = current_user.id
+
+        # Nueva función en ModelOrder (próximo paso)
+        orders = ModelOrder.get_orders_by_user(db, user_id)
+        return jsonify(orders), 200
+
+    except Exception as ex:
+        return jsonify({'message': 'Error al obtener pedidos', 'error': str(ex)}), 500
+
+
+@app.route('/api/orders', methods=['POST'])
+@csrf.exempt
+@login_required  # <-- ¡Protegido!
+def create_order():
+    """ Crea un nuevo pedido para el cliente logueado. """
+    try:
+        if current_user.rol != 'cliente':
+            return jsonify({"message": "Acceso denegado. Solo los clientes pueden ordenar."}), 403
+
+        data = request.get_json()
+        if not data:
+            return jsonify({"message": "No se enviaron datos del pedido"}), 400
+
+        user_id = current_user.id
+        cart_items = data.get('cartItems')  # Espera una lista de {bebida_id, cantidad, precio}
+        total = data.get('total')
+        sucursal_id = data.get('sucursal_id')
+
+        if not all([cart_items, total, sucursal_id]):
+            return jsonify({"message": "Faltan datos en el pedido"}), 400
+
+        # Nueva función en ModelOrder (próximo paso)
+        ModelOrder.create_order(db, user_id, sucursal_id, total, cart_items)
+
+        return jsonify({'message': '¡Pedido creado con éxito!'}), 201
+    except Exception as ex:
+        return jsonify({'message': 'Error al crear el pedido', 'error': str(ex)}), 500
+
+
+# -----------------------------------------------------------------
+# 12. Rutas y Handlers Genéricos (Sin cambios)
 # -----------------------------------------------------------------
 
 @app.route('/')
 @csrf.exempt
 def index():
-    # Esta ya no es la ruta principal, pero es bueno tenerla
     return jsonify({"message": "Bienvenido a la API de PopBubbles"}), 200
 
 
 @app.route('/protected')
 @login_required
 def protected():
-    # Ruta de prueba protegida
-    return jsonify({"message": "Esta es una vista protegida para ciertos usuarios"})
+    return jsonify({"message": f"Vista protegida para {current_user.username}"})
 
 
-# Nuevos Handlers de error que devuelven JSON
 def status_401_json(error):
     return jsonify({"error": "No autorizado. Debes iniciar sesión."}), 401
 
@@ -255,7 +514,14 @@ app.register_error_handler(401, status_401_json)
 app.register_error_handler(404, status_404_json)
 
 # -----------------------------------------------------------------
-# 8. Arranque de la App
+# 13. Arranque de la App (Sin cambios)
 # -----------------------------------------------------------------
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True,
+        ssl_context=("frontend/certs/cert.pem", "frontend/certs/key.pem")
+    )
+
+

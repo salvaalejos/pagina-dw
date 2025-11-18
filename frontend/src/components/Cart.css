@@ -1,0 +1,157 @@
+/* Estilo para el Sidebar del Carrito */
+.cart-sidebar {
+    position: fixed;
+    top: 110px; /* Sigue estando debajo del header */
+    right: 0;
+    width: 380px;
+    height: calc(100vh - 110px);
+
+    /* 1. DISEÑO: Usamos el fondo principal de la app */
+    background-color: var(--bg-main);
+
+    border-left: 3px solid var(--text-main);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 900;
+
+    display: flex;
+    flex-direction: column;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+body.cart-is-open .cart-sidebar {
+    transform: translateX(0);
+}
+
+/* 2. REDISEÑO DEL HEADER DEL CARRITO */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    /* 3. NUEVO COLOR: Morado, para contrastar con el header verde */
+    background: var(--brand-purple);
+
+    padding: 1rem 1.5rem;
+    border-bottom: 3px solid var(--text-main);
+    flex-shrink: 0;
+}
+
+/* 4. NUEVA TIPOGRAFÍA: Limpia y en blanco */
+.cart-header h3 {
+    font-family: var(--font-headings);
+    color: white;
+    font-weight: 800;
+    font-size: 1.8rem;
+    margin: 0;
+    -webkit-text-stroke: 0; /* Sin borde de texto */
+}
+
+/* 5. Botón de Cerrar (blanco) */
+.cart-close-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white;
+    padding: 0;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+.cart-close-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+    color: var(--bg-main); /* Cambia a crema al hacer hover */
+}
+
+/* Cuerpo (lista de items) */
+.cart-body {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+
+    /* 6. Usamos blanco para el fondo del contenido */
+    background-color: #fff;
+}
+
+.cart-empty {
+    text-align: center;
+    padding-top: 2rem;
+    color: #6b7280;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid var(--text-main);
+}
+
+.cart-item-info {
+    flex-grow: 1;
+}
+
+/* 7. Título del item en morado */
+.cart-item-name {
+    font-weight: 700;
+    color: var(--brand-purple);
+    margin: 0;
+}
+
+.cart-item-price {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.cart-item-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.cart-item-controls button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-main);
+    padding: 0;
+    line-height: 1;
+}
+.cart-item-controls button:hover {
+    color: var(--brand-purple);
+}
+.cart-item-controls span {
+    font-weight: 700;
+    font-size: 1.1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Footer del Carrito */
+.cart-footer {
+    padding: 1.5rem;
+
+    /* 8. Mantenemos el fondo crema */
+    background-color: var(--bg-main);
+
+    border-top: 3px solid var(--text-main);
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
+    flex-shrink: 0;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.5rem;
+    color: var(--text-main);
+}

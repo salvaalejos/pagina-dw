@@ -6,7 +6,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = '123456'
+    MYSQL_PASSWORD = 'Said56ZVane?'
     MYSQL_DB = 'bubble_tea'
 
 
@@ -14,7 +14,7 @@ class ProductionConfig(Config):
     DEBUG = False
     MYSQL_HOST = 'localhost'
     MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'admin'
+    MYSQL_PASSWORD = 'Said56ZVane?'
     MYSQL_DB = 'bubble_tea'
     # MYSQL_PORT = 3306
 

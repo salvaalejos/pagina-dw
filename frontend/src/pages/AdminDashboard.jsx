@@ -1,55 +1,54 @@
 import './admin.css';
 import React, { useState, useEffect } from 'react';
-import axios from '../api/axiosConfig'; // Ajusta la ruta (../) si es necesario
+import axios from '../api/axiosConfig';
 import Sidebar from '../components/Sidebar';
 import AddProductForm from '../components/AddProductForm';
 import AddBranchForm from '../components/AddBranchForm';
 import ProductList from '../components/ProductList';
 import BranchList from '../components/BranchList';
+import AddUserForm from '../components/AddUserForm';
+import UserList from '../components/UserList';
 
 function AdminDashboard() {
 
-    // --- PASO 1: Prepara la "memoria" (useState) ---
-    // Ya no iniciamos con datos hardcodeados, sino con arrays vacíos.
     const [products, setProducts] = useState([]);
     const [branches, setBranches] = useState([]);
+    const [users, setUsers] = useState([]);
 
-    // --- PASO 2: Define la función para ir a la API ---
     const fetchData = () => {
         console.log("Buscando datos en el backend...");
 
-        // Hacemos las dos peticiones a la vez
-        const fetchProducts = axios.get('http://localhost:5000/api/products');
-        const fetchBranches = axios.get('http://localhost:5000/api/branches');
+        // CORRECCIÓN: Se quitó /api de todas las rutas
+        const fetchProducts = axios.get('/products');
+        const fetchBranches = axios.get('/branches');
+        const fetchUsers = axios.get('/users');
 
-        // Promise.all espera a que ambas peticiones terminen
-        Promise.all([fetchProducts, fetchBranches])
-            .then(([productsRes, branchesRes]) => {
-                // Cuando terminen, guardamos los datos en la "memoria" (el estado)
+        Promise.all([fetchProducts, fetchBranches, fetchUsers])
+            .then(([productsRes, branchesRes, usersRes]) => {
                 setProducts(productsRes.data);
                 setBranches(branchesRes.data);
-                console.log("¡Datos cargados!", productsRes.data, branchesRes.data);
+                setUsers(usersRes.data);
+
+                console.log("¡Datos cargados!", {
+                    products: productsRes.data,
+                    branches: branchesRes.data,
+                    users: usersRes.data
+                });
             })
             .catch(error => console.error("Error fetching data:", error));
     };
 
-    // --- PASO 3: Dispara la función cuando la página cargue (useEffect) ---
     useEffect(() => {
-        fetchData(); // Llama a la función que busca los datos
-
-        // El array vacío `[]` significa: "ejecuta esto solo una vez, cuando el componente se monte"
+        fetchData();
     }, []);
 
-    // --- PASO 4: Inicializa Lucide (sin cambios) ---
     useEffect(() => {
         if (window.lucide) {
             window.lucide.createIcons();
         }
-        // Ahora se re-ejecuta si los productos o sucursales cambian
-    }, [products, branches]);
+    }, [products, branches, users]);
 
 
-    // --- PASO 5: Pasa los datos y la función de recarga a los componentes hijos ---
     return (
         <div className="admin-container">
             <Sidebar />
@@ -59,22 +58,23 @@ function AdminDashboard() {
                 </header>
 
                 <main className="scrollable-content">
-                    {/* Le pasamos la lista de sucursales Y la función para recargar datos */}
                     <AddProductForm branches={branches} onProductAdded={fetchData} />
-
-                    {/* Le pasamos la función para recargar datos */}
                     <AddBranchForm onBranchAdded={fetchData} />
+                    <AddUserForm branches={branches} onUserAdded={fetchData} />
 
-                    {/* Le pasamos los datos Y una función para manejar el borrado */}
                     <ProductList
                         products={products}
                         branches={branches}
-                        onProductDeleted={fetchData} // La forma fácil: recargar todo
+                        onProductDeleted={fetchData}
                     />
-
                     <BranchList
                         branches={branches}
-                        onBranchDeleted={fetchData} // La forma fácil: recargar todo
+                        onBranchDeleted={fetchData}
+                    />
+                    <UserList
+                        users={users}
+                        branches={branches}
+                        onUserDeleted={fetchData}
                     />
                 </main>
             </div>
