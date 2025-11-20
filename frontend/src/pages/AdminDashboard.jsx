@@ -8,6 +8,7 @@ import ProductList from '../components/ProductList';
 import BranchList from '../components/BranchList';
 import AddUserForm from '../components/AddUserForm';
 import UserList from '../components/UserList';
+import AdminLogs from '../components/AdminLogs'; // <--- 1. NUEVO IMPORT
 
 function AdminDashboard() {
 
@@ -18,7 +19,6 @@ function AdminDashboard() {
     const fetchData = () => {
         console.log("Buscando datos en el backend...");
 
-        // CORRECCIÓN: Se quitó /api de todas las rutas
         const fetchProducts = axios.get('/products');
         const fetchBranches = axios.get('/branches');
         const fetchUsers = axios.get('/users');
@@ -76,6 +76,10 @@ function AdminDashboard() {
                         branches={branches}
                         onUserDeleted={fetchData}
                     />
+
+                    {/* 2. NUEVO COMPONENTE DE LOGS */}
+                    <AdminLogs />
+
                 </main>
             </div>
         </div>

@@ -1,37 +1,51 @@
-import React, { useState } from 'react'; // 1. Quitamos useEffect
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-// 2. Importar los iconos de lucide-react
 import { User, Mail, AtSign, Lock, LockKeyhole } from 'lucide-react';
-import './register.css'; // 3. Importar el NUEVO CSS
+import ReCAPTCHA from "react-google-recaptcha"; // 1. IMPORTAR
+import './register.css';
 
 function RegisterPage() {
     const { register: registerUser } = useAuth();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, setError, formState: { errors } } = useForm();
     const navigate = useNavigate();
     const [apiError, setApiError] = useState("");
-
-    // 4. Ya no se necesita el useEffect de lucide
+    const [captchaToken, setCaptchaToken] = useState(null); // 2. ESTADO DEL TOKEN
 
     const onSubmit = async (data) => {
         setApiError("");
+
+        // 3. VALIDAR CAPTCHA
+        if (!captchaToken) {
+            setApiError("Por favor, confirma que no eres un robot.");
+            return;
+        }
+
         if (data.password !== data.confirmPassword) {
-            setApiError("Las contraseñas no coinciden");
+            setError("confirmPassword", { type: "manual", message: "Las contraseñas no coinciden" });
             return;
         }
 
         try {
-            const response = await registerUser(data.name, data.email, data.username, data.password);
+            // 4. ENVIAR TOKEN (Ahora la función register recibe un 5to argumento)
+            const response = await registerUser(data.name, data.email, data.username, data.password, captchaToken);
             alert(response.message);
             navigate('/login');
         } catch (error) {
-            setApiError(error.message);
+            const msg = error.message.toLowerCase();
+            if (msg.includes("usuario")) {
+                setError("username", { type: "manual", message: error.message });
+            } else if (msg.includes("correo") || msg.includes("email")) {
+                setError("email", { type: "manual", message: error.message });
+            } else {
+                setApiError(error.message);
+            }
+            setCaptchaToken(null); // Resetear captcha si falla
         }
     };
 
     return (
-        // 5. Usamos la nueva clase y quitamos el style en línea
         <div className="register-card">
             <div>
                 <a href="/" className="login-logo">
@@ -48,10 +62,9 @@ function RegisterPage() {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                {/* 6. Mantenemos el formulario vertical */}
 
                 <div className="form-group">
-                    <User className="form-icon" /> {/* Icono de React */}
+                    <User className="form-icon" />
                     <input
                         id="name"
                         type="text"
@@ -63,7 +76,7 @@ function RegisterPage() {
                 </div>
 
                 <div className="form-group">
-                    <Mail className="form-icon" /> {/* Icono de React */}
+                    <Mail className="form-icon" />
                     <input
                         id="email"
                         type="email"
@@ -75,7 +88,7 @@ function RegisterPage() {
                 </div>
 
                 <div className="form-group">
-                    <AtSign className="form-icon" /> {/* Icono de React */}
+                    <AtSign className="form-icon" />
                     <input
                         id="username"
                         type="text"
@@ -87,7 +100,7 @@ function RegisterPage() {
                 </div>
 
                 <div className="form-group">
-                    <Lock className="form-icon" /> {/* Icono de React */}
+                    <Lock className="form-icon" />
                     <input
                         id="password"
                         type="password"
@@ -99,7 +112,7 @@ function RegisterPage() {
                 </div>
 
                 <div className="form-group">
-                    <LockKeyhole className="form-icon" /> {/* Icono de React */}
+                    <LockKeyhole className="form-icon" />
                     <input
                         id="confirmPassword"
                         type="password"
@@ -110,7 +123,15 @@ function RegisterPage() {
                     {errors.confirmPassword && <span style={{color: 'red', fontSize: '0.9rem'}}>{errors.confirmPassword.message}</span>}
                 </div>
 
-                <div style={{ marginTop: '2rem' }}>
+                {/* 5. AÑADIR RECAPTCHA VISUAL */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem', marginBottom: '1rem' }}>
+                    <ReCAPTCHA
+                        sitekey="6LePJxIsAAAAAKh0DbjagXnEnqL7GrF5CUUvsWY8"
+                        onChange={(token) => setCaptchaToken(token)}
+                    />
+                </div>
+
+                <div style={{ marginTop: '1rem' }}>
                     <button type="submit" className="btn btn-primary">
                         Registrarme
                     </button>
