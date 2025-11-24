@@ -26,7 +26,7 @@ from models.ModelOrder import ModelOrder
 # 2. Configuración de la App (Sin cambios)
 # -----------------------------------------------------------------
 app = Flask(__name__)
-CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "https://localhost:3000"}})
 
 app.config.from_object(config['development'])
 csrf = CSRFProtect()
