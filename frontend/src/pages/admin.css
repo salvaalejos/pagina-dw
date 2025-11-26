@@ -1,7 +1,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Asegura que padding y border se incluyan en el ancho/alto total */
+    box-sizing: border-box;
 }
 
 /* --- 1. CONFIGURACIÓN Y VARIABLES --- */
@@ -19,7 +19,7 @@ html, body {
 
 /* --- 2. ESTILO GENERAL DEL CUERPO --- */
 body {
-    font-family: var(--font-body); 
+    font-family: var(--font-body);
     background-color: var(--bg-main);
     color: var(--text-main);
     min-height: 100vh;
@@ -28,42 +28,72 @@ body {
 /* --- 3. LAYOUT PRINCIPAL --- */
 .admin-container {
     display: flex;
-    width: 100vw; /* Ocupa el 100% del ancho de la ventana */
-    height: 100vh; /* Ocupa el 100% del alto de la ventana */
-    overflow: hidden; /* Previene cualquier scroll en la página principal */
-}
-
-/* --- 4. SIDEBAR --- */
-.sidebar {
-    width: 300px;
+    width: 100vw;
     height: 100vh;
-    background-color: var(--sidebar-bg);
-    padding: 0.5rem 1.7rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-right: 3px solid var(--text-main);
-    box-shadow: 4px 0 0 var(--text-main);
-    flex-shrink: 0;
     overflow: hidden;
 }
 
+/* --- 4. SIDEBAR (AJUSTADO) --- */
+.sidebar {
+    width: 400px; /* AUMENTADO de 300px a 360px para más espacio */
+    height: 100vh;
+    background-color: var(--sidebar-bg);
+    /* IMPORTANTE: Quitamos el padding vertical del padre para que el hijo maneje el espacio */
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* Estirar los hijos a lo ancho */
+
+    border-right: 3px solid var(--text-main);
+    box-shadow: 4px 0 0 var(--text-main);
+    flex-shrink: 0;
+    overflow: hidden; /* Ocultar lo que salga del contenedor principal */
+}
+
 .sidebar-logo {
-    margin-bottom: .3rem;
+    /* Le damos su propio espacio con padding */
+    padding: 1.5rem 1.7rem 0.5rem 1.7rem;
     width: 100%;
     text-align: center;
+    flex-shrink: 0; /* El logo NUNCA se debe encoger */
 }
 
 .sidebar-logo img {
-    max-width: 180px; 
+    max-width: 200px; /* AUMENTADO un poco también */
     height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .sidebar-nav {
     list-style: none;
-    padding: 0;
     margin: 0;
     width: 100%;
+
+    /* --- MAGIA DEL SCROLL --- */
+    flex: 1;                /* Ocupa el espacio restante */
+    min-height: 0;          /* CRUCIAL: Permite que el contenedor se encoja y active el scroll */
+    overflow-y: auto;       /* Scroll vertical solo aquí */
+
+    /* El padding va aquí dentro para que el texto no pegue al borde, pero el scroll sí */
+    padding: 0.5rem 1.7rem 2rem 1.7rem;
+
+    /* Estilo del scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-purple) transparent;
+}
+
+/* Estilo del scrollbar para Chrome/Safari/Edge */
+.sidebar-nav::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background-color: var(--brand-purple);
+    border-radius: 10px;
 }
 
 .sidebar-nav-category {
@@ -84,10 +114,13 @@ body {
     margin-bottom: 0.5rem;
     color: var(--sidebar-text);
     text-decoration: none;
-    font-weight: 500; 
+    font-weight: 500;
     font-size: 1.4rem;
     border-radius: 8px;
     transition: all 0.2s ease;
+    white-space: nowrap; /* Evita que el texto se rompa en dos líneas si es muy largo */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .sidebar-nav-item a:hover {
@@ -102,19 +135,18 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Previene que el contenedor entero tenga scroll */
+    overflow: hidden;
 }
 
 .top-bar {
     background: linear-gradient(to right, var(--brand-green-light), var(--brand-green-dark));
     padding: 0.5rem 2rem;
     border-bottom: 3px solid var(--text-main);
-    flex-shrink: 0; /* Evita que se encoja */
+    flex-shrink: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    
 }
 
 .top-bar h1 {
@@ -129,24 +161,23 @@ body {
     flex-grow: 1;
     overflow-y: auto;
     padding: 2.5rem;
-    padding-bottom: 50vh; 
+    padding-bottom: 50vh;
 }
 
 .content-block {
     width: 100%;
-    max-width: 800px; /* Ancho máximo para los bloques */
-    margin-left: auto;   /* Centrado horizontal */
-    margin-right: auto;  /* Centrado horizontal */
-    margin-bottom: 2.5rem; /* Espacio entre bloques */
+    max-width: 900px; /* Aumenté un poco el ancho máximo del contenido también */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2.5rem;
 }
-
 
 /* --- 6. MENSAJES FLASH --- */
 .flash-message-container {
     width: 100%;
-    max-width: 900px; /* Ajusta este valor si tu container es diferente */
+    max-width: 900px;
     margin: 0 auto;
-    margin-bottom: 1.5rem; /* Espacio después de los mensajes */
+    margin-bottom: 1.5rem;
 }
 
 .flash-message {
@@ -162,15 +193,15 @@ body {
 }
 
 .flash-message.success {
-    background-color: #D4EDDA; /* Verde claro */
-    border-color: #28A745; /* Verde oscuro */
-    color: #155724; /* Verde muy oscuro */
+    background-color: #D4EDDA;
+    border-color: #28A745;
+    color: #155724;
 }
 
 .flash-message.error {
-    background-color: #F8D7DA; /* Rojo claro */
-    border-color: #DC3545; /* Rojo oscuro */
-    color: #721C24; /* Rojo muy oscuro */
+    background-color: #F8D7DA;
+    border-color: #DC3545;
+    color: #721C24;
 }
 
 .flash-message button {
@@ -225,7 +256,7 @@ body {
     font-size: 1rem;
     background-color: var(--bg-main);
     transition: all 0.2s ease;
-    box-sizing: border-box; /* Crucial para evitar que se desborde */
+    box-sizing: border-box;
 }
 
 .form-input:focus,
@@ -237,7 +268,7 @@ body {
 }
 
 .form-textarea {
-    resize: vertical; /* Permite al usuario redimensionar verticalmente */
+    resize: vertical;
     min-height: 80px;
 }
 
@@ -262,22 +293,21 @@ body {
 .form-button:hover {
     transform: translateY(-2px) translateX(-2px);
     box-shadow: 6px 6px 0 var(--text-main);
-    background-color: var(--brand-green-light); /* Un poco más claro en hover */
+    background-color: var(--brand-green-light);
 }
 .form-button:active {
     transform: translateY(2px) translateX(2px);
     box-shadow: 2px 2px 0 var(--text-main);
 }
 
-/* --- 9. ESTILO DE LISTADOS (PRODUCTOS/SUCURSALES) --- */
+/* --- 9. ESTILO DE LISTADOS --- */
 .list-container {
-    max-height: 400px; /* Altura máxima para el scroll */
+    max-height: 400px;
     overflow-y: auto;
-    padding-right: 10px; /* Espacio para la barra de scroll */
+    padding-right: 10px;
     margin-top: 1.5rem;
 }
 
-/* Estilo para la barra de scroll */
 .list-container::-webkit-scrollbar {
     width: 10px;
 }
@@ -293,7 +323,6 @@ body {
 .list-container::-webkit-scrollbar-thumb:hover {
     background: var(--brand-purple);
 }
-
 
 .list-item {
     display: flex;
@@ -349,7 +378,7 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    color: #DC3545; /* Rojo */
+    color: #DC3545;
     padding: 0.5rem;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -360,7 +389,6 @@ body {
     transform: scale(1.1);
 }
 
-/* Cuando no hay elementos en la lista */
 .empty-list-message {
     text-align: center;
     color: #6b7280;
@@ -368,7 +396,7 @@ body {
     font-style: italic;
 }
 
-/* --- 10. MODAL DE CONFIRMACIÓN --- */
+/* --- 10. MODAL --- */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -433,16 +461,16 @@ body {
 }
 
 .modal-cancel-btn {
-    background-color: #E5E7EB; /* Gris claro */
+    background-color: #E5E7EB;
     color: var(--text-main);
 }
 
 .modal-confirm-btn {
-    background-color: #DC3545; /* Rojo para confirmar */
+    background-color: #DC3545;
     color: white;
 }
 
-/* --- MEDIA QUERIES PARA RESPONSIVIDAD --- */
+/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
     .admin-container {
         flex-direction: column;
@@ -482,10 +510,10 @@ body {
         width: 100%;
     }
     .delete-button {
-        align-self: flex-end; /* Mueve el botón de eliminar a la derecha */
+        align-self: flex-end;
     }
 }
-/* Agrega esta clase para que el JavaScript pueda ocultar elementos */
+
 .hidden {
     display: none;
 }

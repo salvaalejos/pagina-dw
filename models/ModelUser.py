@@ -8,17 +8,14 @@ class ModelUser():
     def login(self, db, user):
         try:
             cursor = db.connection.cursor()
-
-            # CORREGIDO: Buscamos por 'usuario'
             sql = "SELECT id, nombre, email, usuario, id_sucursal, rol, password FROM usuarios WHERE usuario = %s"
-            values = (user.usuario,)  # <-- CORREGIDO
+            values = (user.usuario,)
             cursor.execute(sql, values)
             row = cursor.fetchone()
 
             if row != None:
                 hashed_password = row[6]
                 if check_password_hash(hashed_password, user.password):
-                    # CORREGIDO: El orden de los argumentos ahora es correcto
                     logged_user = User(row[0], row[1], row[2], row[3], row[4], row[5], None)
                     return logged_user
                 else:
@@ -32,13 +29,11 @@ class ModelUser():
     def getById(self, db, id_user):
         try:
             cursor = db.connection.cursor()
-            # CORREGIDO: Buscamos por 'usuario'
             sql = "SELECT id, nombre, email, usuario, id_sucursal, rol FROM usuarios WHERE id = %s"
             values = (id_user,)
             cursor.execute(sql, values)
             row = cursor.fetchone()
             if row != None:
-                # CORREGIDO: El orden de los argumentos
                 user = User(row[0], row[1], row[2], row[3], row[4], row[5], None)
                 return user
             else:
@@ -52,11 +47,9 @@ class ModelUser():
             cursor = db.connection.cursor()
             hashed_password = generate_password_hash(user.password)
 
-            # CORREGIDO: SQL usa 'usuario'
-            sql = """INSERT INTO usuarios (nombre, email, usuario, id_sucursal, rol, password) 
+            sql = """INSERT INTO usuarios (nombre, email, usuario, id_sucursal, rol, password)
                      VALUES (%s, %s, %s, %s, %s, %s)"""
 
-            # CORREGIDO: Pasamos user.usuario
             values = (user.name, user.email, user.usuario, user.id_branch, user.rol, hashed_password)
 
             cursor.execute(sql, values)
@@ -70,7 +63,6 @@ class ModelUser():
     def get_all_users(self, db):
         try:
             cursor = db.connection.cursor()
-            # CORREGIDO: SQL usa 'usuario'
             sql = "SELECT id, nombre, email, usuario, id_sucursal, rol FROM usuarios"
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -82,9 +74,6 @@ class ModelUser():
                         "id": row[0],
                         "nombre": row[1],
                         "email": row[2],
-                        # CORREGIDO: Mapeamos la columna 'usuario' (row[3])
-                        # de vuelta a 'username' para que el JSON sea consistente
-                        # con lo que el frontend espera.
                         "username": row[3],
                         "id_sucursal": row[4],
                         "rol": row[5]
@@ -104,4 +93,35 @@ class ModelUser():
             return True
         except Exception as ex:
             db.connection.rollback()
+            raise Exception(ex)
+
+    # --- NUEVA FUNCIÓN DE VALIDACIÓN ---
+    @classmethod
+    def check_existence(self, db, username, email):
+        """
+        Verifica si el usuario o el email ya existen en la BD.
+        Retorna:
+         - 'username' si el usuario ya existe
+         - 'email' si el correo ya existe
+         - None si ambos están libres
+        """
+        try:
+            cursor = db.connection.cursor()
+            # Buscamos si existe AL MENOS uno de los dos
+            sql = "SELECT usuario, email FROM usuarios WHERE usuario = %s OR email = %s"
+            cursor.execute(sql, (username, email))
+            row = cursor.fetchone()
+
+            if row:
+                existing_user = row[0]
+                existing_email = row[1]
+
+                # Comparamos para saber cuál fue el que chocó
+                if existing_user == username:
+                    return 'username'
+                if existing_email == email:
+                    return 'email'
+
+            return None  # No existe ninguno, libre para usar
+        except Exception as ex:
             raise Exception(ex)

@@ -16,13 +16,15 @@ export function AuthProvider({ children }) {
     }, []);
 
 
-    const login = async (username, password) => {
+    // En AuthContext.jsx
+    const login = async (username, password, captchaToken) => { // 1. Aceptamos el token
         try {
-            // CORRECCIÓN: Se quitó /api. Ahora llama a /login
             const response = await axios.post('/login', {
                 username,
-                password
+                password,
+                captchaToken // 2. Lo enviamos al backend
             });
+            // ... resto del código igual
 
             if (response.data) {
                 const userData = response.data;
@@ -62,14 +64,15 @@ export function AuthProvider({ children }) {
         }
     };
 
-    const register = async (name, email, username, password) => {
+    const register = async (name, email, username, password, captchaToken) => {
         try {
-            // CORRECCIÓN: Se quitó /api. Ahora llama a /register
+            // Enviamos el captchaToken junto con los datos del usuario
             const response = await axios.post('/register', {
                 name,
                 email,
                 username,
-                password
+                password,
+                captchaToken // <--- NUEVO CAMPO
             });
             return response.data;
         } catch (error) {

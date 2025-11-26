@@ -1,0 +1,41 @@
+.table-responsive {
+    overflow-x: auto;
+}
+
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.logs-table th, .logs-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.logs-table th {
+    background-color: #f8f9fa;
+    color: var(--text-main);
+    font-weight: 700;
+}
+
+.logs-table tr:hover {
+    background-color: #fdfdfd;
+}
+
+/* Estilos para las etiquetas de acción */
+.badge {
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.badge-login { background-color: #d1e7dd; color: #0f5132; }
+.badge-login_fail { background-color: #f8d7da; color: #842029; }
+.badge-new { background-color: #cff4fc; color: #055160; } /* Para NEW_ORDER */
+.badge-add { background-color: #d1e7dd; color: #198754; }
+.badge-delete { background-color: #f8d7da; color: #dc3545; }
+.badge-admin { background-color: #fff3cd; color: #664d03; }

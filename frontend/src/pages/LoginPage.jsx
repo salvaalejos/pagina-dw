@@ -1,28 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { User, Lock } from 'lucide-react'; // 1. IMPORTAR LOS ICONOS
+import { User, Lock } from 'lucide-react';
+// 1. IMPORTAR LIBRERÍA v2
+import ReCAPTCHA from "react-google-recaptcha";
 import './login.css';
 
 function LoginPage() {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
+
+    // Recuerda que tu AuthContext debe aceptar el tercer parámetro (captchaToken)
     const { login } = useAuth();
+
     const [apiError, setApiError] = useState("");
+    const [captchaToken, setCaptchaToken] = useState(null); // Estado para guardar el token
 
     const onSubmit = async (data) => {
         setApiError("");
+
+        // 2. VALIDACIÓN: ¿El usuario marcó la casilla?
+        if (!captchaToken) {
+            setApiError("Por favor, confirma que no eres un robot.");
+            return;
+        }
+
         try {
-            await login(data.username, data.password);
+            // 3. ENVIAR AL BACKEND
+            await login(data.username, data.password, captchaToken);
         } catch (error) {
             console.error("Error en el login:", error);
             setApiError(error.message);
+            setCaptchaToken(null); // Reseteamos el captcha si falla
         }
     };
-
-    // 2. ELIMINAR EL useEffect de lucide.createIcons()
-    // Ya no es necesario porque usamos componentes de React.
 
     return (
         <div className="login-card">
@@ -42,7 +54,6 @@ function LoginPage() {
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-group">
-                    {/* 3. REEMPLAZAR <i> POR COMPONENTE */}
                     <User className="form-icon" />
                     <input
                         id="username"
@@ -55,7 +66,6 @@ function LoginPage() {
                 </div>
 
                 <div className="form-group">
-                    {/* 4. REEMPLAZAR <i> POR COMPONENTE */}
                     <Lock className="form-icon" />
                     <input
                         id="password"
@@ -67,7 +77,15 @@ function LoginPage() {
                     {errors.password && <span style={{color: 'red', fontSize: '0.9rem'}}>{errors.password.message}</span>}
                 </div>
 
-                <div style={{ marginTop: '2rem' }}>
+                {/* 4. COMPONENTE VISUAL */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1.5rem', marginBottom: '1rem' }}>
+                    <ReCAPTCHA
+                        sitekey="6LePJxIsAAAAAKh0DbjagXnEnqL7GrF5CUUvsWY8"
+                        onChange={(token) => setCaptchaToken(token)}
+                    />
+                </div>
+
+                <div style={{ marginTop: '1rem' }}>
                     <button type="submit" className="btn btn-primary">
                         Iniciar Sesión
                     </button>
