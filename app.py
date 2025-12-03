@@ -31,7 +31,7 @@ from models.ModelLog import ModelLog  # <--- NUEVO: Importamos el modelo de Logs
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "https://localhost:3000"}})
 
-app.config.from_object(config['development'])
+app.config.from_object(config['production'])
 csrf = CSRFProtect()
 csrf.init_app(app)
 db = MySQL(app)

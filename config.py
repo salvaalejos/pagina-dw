@@ -13,8 +13,8 @@ class DevelopmentConfig(Config):
 class ProductionConfig(Config):
     DEBUG = False
     MYSQL_HOST = 'localhost'
-    MYSQL_USER = 'root'
-    MYSQL_PASSWORD = 'admin'
+    MYSQL_USER = 'bubbles'
+    MYSQL_PASSWORD = '6q3IJFn8HJCT#%'
     MYSQL_DB = 'bubble_tea'
     # MYSQL_PORT = 3306
 
