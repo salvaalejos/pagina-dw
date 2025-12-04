@@ -136,3 +136,15 @@
 .form-input {
   padding-left: 45px !important; /* <-- evita que el texto caiga debajo del icono */
 }
+
+@media (max-width: 768px) {
+    .login-card {
+        margin: 2rem auto; /* Menos margen vertical */
+        padding: 1.5rem;   /* Menos padding interno */
+        width: 95%;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+}

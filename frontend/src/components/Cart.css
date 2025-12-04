@@ -155,3 +155,29 @@ body.cart-is-open .cart-sidebar {
     font-size: 1.5rem;
     color: var(--text-main);
 }
+
+/* --- RESPONSIVE CART --- */
+/* Copia esto al FINAL de Cart.css */
+
+@media (max-width: 480px) {
+    .cart-sidebar {
+        width: 100%; /* Ocupa toda la pantalla */
+        top: 0;      /* Desde arriba del todo */
+        height: 100vh;
+        border-left: none;
+    }
+
+    /* Ajustar altura del header del carrito si es necesario */
+    .cart-header {
+        padding: 0.8rem 1rem;
+    }
+
+    .cart-header h3 {
+        font-size: 1.4rem;
+    }
+
+    /* Ajustar el contenido para que no quede tapado por barras de navegación del móvil */
+    .cart-body {
+        padding-bottom: 80px;
+    }
+}

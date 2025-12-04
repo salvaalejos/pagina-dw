@@ -364,3 +364,95 @@
     width: 100%;
     justify-content: center;
 }
+
+/* --- RESPONSIVE DESIGN (MÓVIL) --- */
+/* Copia esto al FINAL de bubbles.css */
+
+@media (max-width: 768px) {
+    /* 1. Ajustar el contenedor general */
+    .container {
+        width: 90%;
+        padding: 0;
+    }
+
+    /* 2. Header: Cambiar de fila a columna */
+    .main-header {
+        position: relative; /* En móvil a veces es mejor que no sea fixed si ocupa mucho */
+    }
+
+    .main-header .container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    /* Ajustar logo */
+    .logo img {
+        height: 80px; /* Un poco más pequeño */
+        margin: 0 auto;
+    }
+
+    /* Navegación: enlaces más pequeños y apilados o en línea envuelta */
+    .main-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .main-nav a {
+        font-size: 1.2rem; /* Bajamos de 2rem a 1.2rem */
+        margin: 0;
+        -webkit-text-stroke: 1px var(--brand-purple); /* Borde más fino */
+    }
+
+    /* Botones de Auth (Login/Registro) centrados */
+    .auth-nav {
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* 3. Cuerpo: Ajustar padding para que no choque con el header */
+    body {
+        padding-top: 0; /* Como el header puede crecer, quitamos el padding fijo */
+    }
+
+    main {
+        padding-top: 2rem;
+    }
+
+    /* 4. Secciones (Misión, Visión): Apilar imagen y texto */
+    .content-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    /* Invertir orden en secciones pares si quieres (opcional) para imagen-texto siempre */
+    .content-section:nth-child(even) {
+        flex-direction: column-reverse;
+    }
+
+    .content-section .image-container {
+        width: 150px; /* Imagen más pequeña */
+        margin: 0 auto;
+    }
+
+    /* 5. Títulos más pequeños */
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    /* 6. Grid del Menú: Hacer que las tarjetas ocupen el ancho disponible */
+    #menu-items {
+        grid-template-columns: 1fr; /* Una sola columna */
+        padding: 0 1rem;
+    }
+
+    .product-card {
+        max-width: 400px;
+        margin: 0 auto; /* Centrar tarjetas */
+    }
+}

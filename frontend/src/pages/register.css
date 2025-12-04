@@ -123,3 +123,11 @@
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+
+@media (max-width: 768px) {
+    .register-card {
+        margin: 2rem auto;
+        padding: 1.5rem;
+        width: 95%;
+    }
+}
