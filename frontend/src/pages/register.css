@@ -131,3 +131,46 @@
         width: 95%;
     }
 }
+
+/* --- RESPONSIVE REGISTER (MÓVIL) --- */
+/* Copia esto al final del archivo register.css */
+
+@media (max-width: 480px) {
+    .register-card {
+        margin: 1rem auto;
+        padding: 1.2rem; /* Aún más compacto porque el registro es largo */
+        width: 95%;
+    }
+
+    .register-card .login-logo img {
+        max-width: 120px; /* Logo pequeño para dar espacio al form */
+        margin-bottom: 0.5rem;
+    }
+
+    .register-card .login-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .register-card .login-subtitle {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 0.8rem; /* Menos espacio entre inputs */
+    }
+
+    /* Ajuste de inputs para que no se sientan gigantes */
+    .form-input {
+        padding: 0.6rem;
+        padding-left: 2.5rem;
+        font-size: 0.9rem;
+    }
+
+    .form-icon {
+        width: 16px;
+        height: 16px;
+        left: 0.8rem;
+    }
+}

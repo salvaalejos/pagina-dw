@@ -517,3 +517,98 @@ body {
 .hidden {
     display: none;
 }
+
+/* --- RESPONSIVE ADMIN (MÓVIL) --- */
+/* Copia esto al final de admin.css */
+
+@media (max-width: 900px) {
+    /* 1. Cambiar layout de Fila a Columna */
+    .admin-container {
+        flex-direction: column;
+        height: auto;      /* Quitamos la altura fija de pantalla */
+        min-height: 100vh; /* Permitimos que crezca */
+        overflow: auto;    /* Habilitamos scroll normal del navegador */
+    }
+
+    /* 2. Sidebar arriba y compacta */
+    .sidebar {
+        width: 100%;       /* Ancho total */
+        height: auto;      /* Altura automática según contenido */
+        border-right: none;
+        border-bottom: 3px solid var(--text-main);
+        padding: 1rem;
+        overflow: visible; /* Quitar scroll interno del sidebar */
+    }
+
+    .sidebar-logo {
+        padding: 0;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+
+    .sidebar-logo img {
+        max-width: 120px; /* Logo más pequeño */
+        margin: 0 auto;
+    }
+
+    /* 3. Navegación horizontal o compacta */
+    .sidebar-nav {
+        padding: 0;
+        overflow: visible;
+    }
+
+    /* Truco: Convertir las listas en una rejilla de botones para ahorrar espacio vertical */
+    .sidebar-nav ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        justify-content: center;
+        padding-bottom: 1rem;
+    }
+
+    .sidebar-nav-category {
+        text-align: center;
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        display: none; /* Opcional: Ocultar títulos de categoría para ahorrar espacio */
+    }
+
+    .sidebar-nav-item a,
+    .sidebar-nav-item button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 50px;
+        border: 1px solid var(--sidebar-text);
+        white-space: nowrap;
+    }
+
+    /* 4. Ajustar el contenido principal */
+    .content-wrapper {
+        height: auto;
+        overflow: visible;
+    }
+
+    .scrollable-content {
+        padding: 1.5rem;
+        overflow: visible;
+        padding-bottom: 4rem;
+    }
+
+    .top-bar h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    /* Ajustar tablas y listas dentro del panel */
+    .list-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .list-item-image {
+        width: 100%;
+        height: 150px;
+        margin-bottom: 0.5rem;
+    }
+}
