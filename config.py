@@ -16,7 +16,6 @@ class ProductionConfig(Config):
     MYSQL_USER = 'bubbles'
     MYSQL_PASSWORD = '6q3IJFn8HJCT#%'
     MYSQL_DB = 'bubble_tea'
-    # MYSQL_PORT = 3306
 
 
 config = {

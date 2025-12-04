@@ -57,9 +57,17 @@ class ModelDrink():
     def deleteDrink(cls, db, id):
         try:
             cursor = db.connection.cursor()
-            sql = "DELETE FROM bebidas WHERE id = %s"
-            values = (id,)
-            cursor.execute(sql, values)
+
+            # PASO 1: Eliminar la bebida de los pedidos históricos
+            # Esto elimina la restricción (FOREIGN KEY) sin tocar la estructura de la BD.
+            # Nota: El pedido seguirá existiendo, pero esta bebida desaparecerá de él.
+            sql_remove_dependencies = "DELETE FROM pedido_bebidas WHERE bebida_id = %s"
+            cursor.execute(sql_remove_dependencies, (id,))
+
+            # PASO 2: Ahora que está "libre", borramos la bebida
+            sql_delete_drink = "DELETE FROM bebidas WHERE id = %s"
+            cursor.execute(sql_delete_drink, (id,))
+
             db.connection.commit()
             return True
         except Exception as ex:
